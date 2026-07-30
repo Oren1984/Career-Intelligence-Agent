@@ -1,34 +1,48 @@
-# .gitignore
-
-# python
+# Python
 __pycache__/
 *.pyc
 *.pyo
 
-# virtual environment
+# Virtual environments
 /venv/
 /.venv/
+
+# Environment variables
 .env
 
-# database files
+# Database files
 data/*.db
 
-# pytest
+# Pytest and build artifacts
 .pytest_cache/
 *.egg-info/
 dist/
-
-# IDE files
 build/
-.DS_Store
 
-# logs
+# IDE and operating-system files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
 logs/
 *.log
 
-# ── Local Knowledge Base (private career documents) ──────────────────────────
-# Personal files in knowledge_base/ are NEVER committed to git.
-# Only sample files in knowledge_base/_samples/ are committed.
+# Local AI Assistant Configuration
+# Claude configuration and local working files are not part of the repository.
+.claude/
+CLAUDE.md
+
+# Internal Documentation
+# Internal development, audit, validation, and handover documents.
+docs/
+documentation/
+
+# ── Local Knowledge Base
+# Personal files in knowledge_base/ are never committed.
+# Only README.md and sample files are retained.
 knowledge_base/resume/
 knowledge_base/projects/
 knowledge_base/skills/
@@ -37,10 +51,9 @@ knowledge_base/achievements/
 knowledge_base/strategy/
 knowledge_base/interview_prep/
 knowledge_base/general/
-# Commit only: knowledge_base/README.md and knowledge_base/_samples/
 
-# ── Personal Profile (private, never committed) ───────────────────────────────
+# Personal Profile
 data/personal_profile.json
 
-# ── Local RAG Index (generated, not committed) ────────────────────────────────
+# Local RAG Index
 data/knowledge_index/

@@ -1,10 +1,6 @@
-﻿# Oren Salami | 🧠 AI Systems Engineer
+﻿# Career Intelligence Agent — Local RAG Edition
 
-## Intelligent Systems • AI Agents • Data & Automation
-
----
-
-## 🧠 Career Intelligence Agent — Local RAG Edition
+## Oren Salami | AI Systems Engineer ## 
 
 A privacy-first Career Intelligence Agent that helps evaluate job opportunities, analyze role fit, identify skill gaps, and recommend the most relevant portfolio projects using local data and evidence-based retrieval.
 
@@ -14,7 +10,7 @@ It is designed to help make better career decisions while keeping the user fully
 
 ---
 
-## 🧠 Project Overview
+## Project Overview
 
 The **Career Intelligence Agent** is a local AI-powered career analysis system built around personal career data, job descriptions, scoring logic, portfolio matching, and local RAG-based evidence retrieval.
 
@@ -26,7 +22,7 @@ It helps the user think, compare, and decide based on structured analysis and ev
 
 ---
 
-## 🎯 Purpose
+## Purpose
 
 The purpose of this project is to demonstrate:
 
@@ -40,7 +36,7 @@ The purpose of this project is to demonstrate:
 
 ---
 
-## 🚀 Core Capabilities
+## Core Capabilities
 
 - Local job-description analysis
 - Candidate profile matching
@@ -61,7 +57,7 @@ The purpose of this project is to demonstrate:
 
 ---
 
-## 🧱 Architecture & System Design
+## Architecture & System Design
 
 The system is designed as a local decision-support platform with clear separation between configuration, data, retrieval, scoring logic, dashboard UI, tests, and documentation.
 
@@ -84,8 +80,6 @@ career-intelligence-agent/
 │   ├── ingest_knowledge.py
 │   └── fetch_jobs.py
 ├── tests/
-├── documentation/
-│   └── docs/
 ├── docker-compose.yml
 ├── requirements.txt
 └── README.md
@@ -95,7 +89,7 @@ The system keeps career documents, retrieval, scoring, dashboard logic, and conf
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - LayerTechnologies
 - LanguagePython
@@ -134,12 +128,9 @@ dashboard/
 tests/
 └── Unit and integration tests
 
-documentation/
-└── Technical documentation and validation reports
-
 ---
 
-## 🧠 How Local RAG Works
+## How Local RAG Works
 
 The local RAG workflow is based on private career documents stored on the user's machine.
 
@@ -163,7 +154,7 @@ Nothing needs to leave the local machine for the core workflow
 
 ---
 
-## 🔀 Execution Modes
+## Execution Modes
 
 The system supports three explicit execution modes from the dashboard sidebar.
 
@@ -195,7 +186,7 @@ If RAG Only is selected, the UI prompts the user to switch to a scoring-enabled 
 
 ---
 
-## 🧮 Scoring System
+## Scoring System
 
 The scoring system evaluates job fit across multiple dimensions.
 
@@ -216,7 +207,7 @@ The result is translated into a practical recommendation label:
 
 ---
 
-## 🖥️ Dashboard Overview
+## Dashboard Overview
 
 The Streamlit dashboard includes several sections for career analysis and decision support.
 
@@ -232,7 +223,7 @@ The Streamlit dashboard includes several sections for career analysis and decisi
 
 ---
 
-## 🚀 How to Run
+## How to Run
 
 1. Install dependencies
 pip install -r requirements.txt
@@ -251,7 +242,7 @@ http://localhost:8508
 
 ---
 
-## 🐳 Run with Docker
+## Run with Docker
 
 Recommended local execution:
 ```bash
@@ -260,7 +251,7 @@ docker compose up --build
 
 Open:
 
-http://localhost:8508
+'http://localhost:8508'
 
 Stop the system:
 ```bash
@@ -269,7 +260,7 @@ docker compose down
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 Main profile configuration:
 ```bash
@@ -287,7 +278,7 @@ Use this file to define:
 
 ---
 
-## 🔌 Source Modes
+## Source Modes
 
 The system can work with different job source modes.
 
@@ -299,7 +290,7 @@ The system can work with different job source modes.
 
 ---
 
-## 🧪 Tests
+## Tests
 
 Run tests with:
 ```bash
@@ -308,19 +299,18 @@ python -m pytest tests/ -q
 
 ---
 
-## 📚 Documentation
+## Documentation
 
-This project includes documentation that explains the system state, validation process, and final upgrade summary.
+The public repository includes the README, source code, configuration examples,
+tests, and local execution instructions required to understand and run the project.
 
-Key documents include:
-
-documentation/docs/current_state_audit.md
-documentation/docs/validation_report.md
-documentation/docs/final_upgrade_summary.md
+Internal development notes, audit reports, validation records, AI-assistant
+configuration, and private handover documents are intentionally excluded from
+version control.
 
 ---
 
-## 🌐 Portfolio Demo
+## Portfolio Demo
 
 This project is part of my AI Engineering portfolio and can be presented as a local, privacy-first AI decision-support system.
 
@@ -337,7 +327,7 @@ The system is designed to be understandable even without live external integrati
 
 ---
 
-## 🧩 What This Project Demonstrates
+## What This Project Demonstrates
 
 This project demonstrates my ability to:
 
@@ -352,7 +342,7 @@ This project demonstrates my ability to:
 
 ---
 
-## 📌 Current Status
+## Current Status
 
 Status: Portfolio-ready / Local demo-ready / Decision-support system
 
@@ -370,7 +360,7 @@ The project does not require paid APIs for core functionality.
 
 ---
 
-## ⚠️ Important Notes
+## Important Notes
 This system is not an automatic job application bot.
 It does not apply to jobs on behalf of the user.
 The user stays fully in control of all career decisions.
@@ -379,7 +369,7 @@ The system is designed for analysis, prioritization, and decision support.
 
 ---
 
-## 🏁 Final Note
+## Final Note
 
 This project is part of my AI Engineering portfolio.
 
