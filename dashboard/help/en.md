@@ -83,15 +83,19 @@ Everything runs on your machine: PostgreSQL in Docker (data in the `pgdata` volu
 
 ## Backup and restore
 <!-- topic: backup -->
-Back up the database to a folder outside the Docker volume:
+Back up the database into the `backups/` folder (outside the Docker volume, ignored by Git):
 
-`docker compose exec -T db pg_dump -U career_owner -d career -Fc > backups/career-$(date +%F).dump`
+1. `docker compose exec -T db pg_dump -U career_owner -d career -Fc -f /tmp/career.dump`
+2. `docker compose cp db:/tmp/career.dump backups/career-YYYY-MM-DD.dump`
 
-Restore into a running stack (replaces existing objects):
+Restore (replaces the current data; stop the app first):
 
-`docker compose exec -T db pg_restore -U career_owner -d career --clean --if-exists < backups/career-YYYY-MM-DD.dump`
+1. `docker compose stop app`
+2. `docker compose cp backups/career-YYYY-MM-DD.dump db:/tmp/restore.dump`
+3. `docker compose exec -T db pg_restore -U career_owner -d career --clean --if-exists /tmp/restore.dump`
+4. `docker compose start app`
 
-Keep backups out of Git (the `backups/` folder is ignored). See *docs/documentation/backup-restore.md* for an optional nightly schedule.
+Use your `POSTGRES_USER` / `POSTGRES_DB` values if you changed them. In Git Bash on Windows run `export MSYS_NO_PATHCONV=1` first so `/tmp/...` paths are not rewritten. An optional nightly schedule is described in *docs/documentation/backup-restore.md*.
 
 ## Troubleshooting and FAQ
 <!-- topic: faq -->

@@ -83,15 +83,19 @@
 
 ## גיבוי ושחזור
 <!-- topic: backup -->
-גבו את מסד הנתונים לתיקייה מחוץ לווליום של Docker:
+גבו את מסד הנתונים לתיקייה `backups/` (מחוץ לווליום של Docker, מוחרגת מ־Git):
 
-`docker compose exec -T db pg_dump -U career_owner -d career -Fc > backups/career-$(date +%F).dump`
+1. `docker compose exec -T db pg_dump -U career_owner -d career -Fc -f /tmp/career.dump`
+2. `docker compose cp db:/tmp/career.dump backups/career-YYYY-MM-DD.dump`
 
-שחזור למערכת פועלת (מחליף אובייקטים קיימים):
+שחזור (מחליף את הנתונים הנוכחיים; עצרו קודם את האפליקציה):
 
-`docker compose exec -T db pg_restore -U career_owner -d career --clean --if-exists < backups/career-YYYY-MM-DD.dump`
+1. `docker compose stop app`
+2. `docker compose cp backups/career-YYYY-MM-DD.dump db:/tmp/restore.dump`
+3. `docker compose exec -T db pg_restore -U career_owner -d career --clean --if-exists /tmp/restore.dump`
+4. `docker compose start app`
 
-שמרו גיבויים מחוץ ל־Git (התיקייה `backups/` מוחרגת). לתזמון לילי אופציונלי ראו *docs/documentation/backup-restore.md*.
+אם שיניתם את `POSTGRES_USER` / `POSTGRES_DB` השתמשו בערכים שלכם. ב־Git Bash ב־Windows הריצו קודם `export MSYS_NO_PATHCONV=1` כדי שנתיבי `/tmp/...` לא ישונו. תזמון לילי אופציונלי מתואר ב־*docs/documentation/backup-restore.md*.
 
 ## פתרון תקלות ושאלות נפוצות
 <!-- topic: faq -->
