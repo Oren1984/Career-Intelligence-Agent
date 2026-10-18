@@ -12,6 +12,8 @@ __pycache__/
 
 # Local login credentials (bcrypt hashes) — managed by scripts/create_user.py
 config/users.yaml
+# Personal local-login notes (owner username, URL, password instructions)
+LOCAL_LOGIN.md
 
 # Database files
 data/*.db

@@ -18,7 +18,7 @@ Open <http://localhost:8086>. Change the host port with `APP_HOST_PORT` in `.env
 ### Create your login (owner)
 
 ```bash
-docker compose run --rm tools scripts/create_user.py oren --workspace personal
+docker compose run --rm tools scripts/create_user.py <your-username> --workspace personal
 ```
 
 The script asks for the password twice without echoing it (minimum 8 characters). It stores only a bcrypt hash in `config/users.yaml`. That file is git-ignored, excluded from the Docker build context and mounted **read-only** into the `app` container. Run the same command again to change the password.

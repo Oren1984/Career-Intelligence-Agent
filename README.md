@@ -54,13 +54,21 @@ Everything runs in Docker Compose. PostgreSQL stores all data, and each login's 
 ```bash
 cp .env.example .env                 # set the two change-me passwords (letters, digits, - and _)
 docker compose up -d --build         # PostgreSQL → migrations → app
-docker compose run --rm tools scripts/create_user.py oren --workspace personal   # your login
+docker compose run --rm tools scripts/create_user.py <your-username> --workspace personal   # your login
 docker compose run --rm tools scripts/seed_demo.py                               # optional demo data
 ```
 
 Open **<http://localhost:8086>** and sign in.
 
-- **Demo account:** username `demo`, password `demo2026` (created by `seed_demo.py`). It contains only synthetic data and never sees the owner's data.
+### Demo login
+
+| Username | Password | Data |
+|---|---|---|
+| `demo` | `demo2026` | Synthetic sample data only (created by `seed_demo.py`) |
+
+The owner login is created locally with `create_user.py`. Its credentials are never published.
+
+- **Demo account:** see the table above. It contains only synthetic data and never sees the owner's data.
 - **Owner account:** `create_user.py` asks for your password twice without echoing it and stores only a bcrypt hash in `config/users.yaml`. That file is git-ignored, kept out of the Docker image and mounted read-only. Run it again to change the password.
 - **Your documents:** put them in `knowledge_base/` (for example `knowledge_base/resume/`, `knowledge_base/projects/`), then click *Sync knowledge base*.
 - **Nothing runs automatically:** jobs are fetched and scored only when you click *Job pipeline* (or run the scripts).

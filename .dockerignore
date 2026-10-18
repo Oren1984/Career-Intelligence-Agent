@@ -8,6 +8,7 @@ V2_WORK_PLAN.md
 .env.*
 !.env.example
 config/users.yaml
+LOCAL_LOGIN.md
 
 # Version control and tooling
 .git

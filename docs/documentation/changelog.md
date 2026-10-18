@@ -5,7 +5,7 @@
 ### Added
 
 - **PostgreSQL 16 + pgvector** persistence (Docker Compose `db` service with health check and named volume; one-shot `migrate` service).
-- **Sign-in** with bcrypt-hashed local credentials (`config/users.yaml`), logout, inactivity timeout and failed-login throttling. Logins: `oren` (personal workspace; you set its password locally) and `demo` (synthetic data workspace).
+- **Sign-in** with bcrypt-hashed local credentials (`config/users.yaml`), logout, inactivity timeout and failed-login throttling. Logins: an owner login (personal workspace; created and password-set locally) and `demo` (synthetic data workspace).
 - **Workspace isolation** enforced by PostgreSQL row-level security and a least-privilege application role.
 - **Semantic knowledge search** with the local `intfloat/multilingual-e5-small` model (English and Hebrew), an idempotent document sync and an automatic TF-IDF fallback.
 - **Application Tracker** with Excel import (preview, duplicate and validation reporting, lossless round-trip) and export matching `Job_Search_Tracker.xlsx`.
