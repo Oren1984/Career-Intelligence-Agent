@@ -1,49 +1,47 @@
-# requirements.txt for AI Career Agent (Local RAG Edition)
+# requirements.txt — runtime dependencies for Career Intelligence Agent V2.0
+# Development/test tools live in requirements-dev.txt.
 
-# Core dependencies
-streamlit>=1.32.0
-beautifulsoup4>=4.12.0
-requests>=2.31.0
-sqlalchemy>=2.0.0
-pydantic>=2.0.0
-pytest>=8.0.0
-python-dotenv>=1.0.0
-feedparser>=6.0.10
-pyyaml>=6.0.1
-bcrypt>=4.1,<6
-lxml>=5.1.0
+# UI
+streamlit>=1.46,<2
+altair>=5.2,<7
 pandas>=2.0.0
 
-# V2: Scheduling (optional — install to enable background scheduler)
-apscheduler>=3.10.0
-
-# V2: LLM providers (optional — install only the provider you use)
-# anthropic>=0.25.0          # Claude — set ANTHROPIC_API_KEY
-# openai>=1.0.0              # OpenAI — set OPENAI_API_KEY
-# google-generativeai>=0.5.0 # Gemini — set GOOGLE_API_KEY
-# ollama runs locally; no Python package required beyond requests (already installed)
-
-
-# V2.0: PostgreSQL + pgvector
+# Data access: PostgreSQL + pgvector
+sqlalchemy>=2.0.0
 psycopg[binary]>=3.2,<4
 pgvector>=0.4.1,<0.5
 
-# V2.0: local embeddings (required). Docker installs the CPU-only torch wheel first.
+# Local embeddings (required). Docker installs the CPU-only torch wheel first.
 sentence-transformers>=5.1,<6
+
+# Authentication
+bcrypt>=4.1,<6
+
+# Tracker (Excel import/export) and timezones
+openpyxl>=3.1,<4
+tzdata>=2024.1
+
+# Job collection, parsing and configuration
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=5.1.0
+feedparser>=6.0.10
+pydantic>=2.0.0
+python-dotenv>=1.0.0
+pyyaml>=6.0.1
+
+# Optional background scheduler (scripts/run_scheduler.py)
+apscheduler>=3.10.0
 
 # Resume parsing
 pypdf>=4.0.0
 pdfminer.six>=20231228
 
-# Optional fuzzy dedup
+# Fuzzy deduplication
 rapidfuzz>=3.6.0
 
-# ── Local RAG (Phase 1-3) ──────────────────────────────────────────────────────
-# All RAG modules use Python stdlib + optional enhancements.
-# No hard new dependencies required for core TF-IDF retrieval.
-#
-# sentence-transformers (above) provides local semantic embeddings for retrieval.
-
-# Security tools (CI)
-bandit>=1.7.7
-pip-audit>=2.7.0
+# Optional LLM providers — install only the one you use:
+# anthropic>=0.25.0          # Claude — set ANTHROPIC_API_KEY
+# openai>=1.0.0              # OpenAI — set OPENAI_API_KEY
+# google-generativeai>=0.5.0 # Gemini — set GOOGLE_API_KEY
+# Ollama runs locally; no extra package is required.

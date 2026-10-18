@@ -1,0 +1,3 @@
+# requirements-dev.txt — local development and tests (not installed in the Docker image)
+-r requirements.txt
+pytest>=8.0.0
