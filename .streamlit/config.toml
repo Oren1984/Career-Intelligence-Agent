@@ -11,3 +11,8 @@ gatherUsageStats = false
 [server]
 headless = true
 maxUploadSize = 10
+
+[logger]
+# Skips the startup URL banner, which would otherwise look up this machine's
+# public IP address over the network (no outbound call on startup).
+hideWelcomeMessage = true

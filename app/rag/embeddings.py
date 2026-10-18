@@ -81,7 +81,9 @@ class Embedder:
         from sentence_transformers import SentenceTransformer  # noqa: PLC0415
 
         self._model = SentenceTransformer(str(model_path), device="cpu")
-        dim = self._model.get_sentence_embedding_dimension()
+        dimension_of = (getattr(self._model, "get_embedding_dimension", None)       # sentence-transformers >= 5.7
+                        or self._model.get_sentence_embedding_dimension)
+        dim = dimension_of()
         if dim != EMBEDDING_DIM:
             raise EmbeddingUnavailable(
                 f"Model {MODEL_ID} produces {dim}-d vectors but the database column is {EMBEDDING_DIM}-d."

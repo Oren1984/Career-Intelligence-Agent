@@ -25,7 +25,8 @@ RUN pip install --index-url https://download.pytorch.org/whl/cpu "torch==2.10.0"
 COPY app/__init__.py app/__init__.py
 COPY app/rag/__init__.py app/rag/model_spec.py app/rag/embeddings.py app/rag/
 COPY scripts/__init__.py scripts/download_model.py scripts/
-RUN python scripts/download_model.py --verify
+RUN python scripts/download_model.py --verify \
+ && chmod -R a+rX /opt/models
 
 # Application source.
 COPY . .
@@ -46,4 +47,5 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=3 \
 
 CMD ["streamlit", "run", "dashboard/streamlit_app.py", \
      "--server.address=0.0.0.0", "--server.port=8508", \
-     "--server.headless=true", "--browser.gatherUsageStats=false"]
+     "--server.headless=true", "--browser.gatherUsageStats=false", \
+     "--server.fileWatcherType=none"]
