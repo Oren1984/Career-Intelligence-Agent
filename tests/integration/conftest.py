@@ -1,7 +1,7 @@
 """PostgreSQL integration fixtures.
 
 Set TEST_PG_ADMIN_URL to a superuser URL of a disposable PostgreSQL+pgvector
-server, e.g. postgresql+psycopg://career_owner:devowner@127.0.0.1:55432/postgres
+server, e.g. postgresql+psycopg://test:test@127.0.0.1:55432/postgres
 Each test session creates its own throwaway database and application role and
 drops both afterwards; no existing database is touched.
 """
