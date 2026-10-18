@@ -16,7 +16,7 @@
 <!-- topic: getting-started -->
 1. הפעילו את המערכת: `docker compose up -d --build` (הגדרת `.env` חד־פעמית מתוארת ב־README).
 2. צרו פעם אחת את פרטי הכניסה: `docker compose run --rm tools scripts/create_user.py <username> --workspace personal`. הסיסמה תתבקש פעמיים; היא לעולם אינה מוצגת או נשמרת כטקסט גלוי.
-3. פתחו את http://localhost:8508 והתחברו.
+3. פתחו את <http://localhost:8086> והתחברו.
 4. אופציונלי: `docker compose run --rm tools scripts/seed_demo.py` יוצר את חשבון **demo** ואת נתוני הדוגמה שלו.
 
 ההפעלה מסתיימת כשלוחצים **התנתקות**, לאחר זמן חוסר הפעילות (ברירת מחדל 60 דקות, `SESSION_TIMEOUT_MINUTES`) או בטעינה מחדש של הדף — האפליקציה אינה שומרת עוגיית התחברות. לאחר כמה סיסמאות שגויות שם המשתמש ננעל לכמה דקות.

@@ -49,7 +49,7 @@ services:
       DATABASE_URL: postgresql+psycopg://${APP_DB_USER:-career_app}:${APP_DB_PASSWORD}@db:5432/${POSTGRES_DB:-career}
       SESSION_TIMEOUT_MINUTES: ${SESSION_TIMEOUT_MINUTES:-60}
     ports:
-      - "${APP_HOST_PORT:-8508}:8508"
+      - "${APP_HOST_PORT:-8086}:8508"            # app on http://localhost:8086 (container port 8508)
     volumes:
       - ./config:/app/config:ro                    # includes users.yaml (credentials, read-only)
       - ./knowledge_base:/app/knowledge_base:ro    # personal knowledge-base documents

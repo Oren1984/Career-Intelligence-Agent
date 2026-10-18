@@ -16,7 +16,7 @@ Each article starts with "## Title" followed by a topic marker used by contextua
 <!-- topic: getting-started -->
 1. Start the stack: `docker compose up -d --build` (see the README for the one-time `.env` setup).
 2. Create your login once: `docker compose run --rm tools scripts/create_user.py <username> --workspace personal`. You will be asked for the password twice; it is never shown or stored in plain text.
-3. Open http://localhost:8508 and sign in.
+3. Open <http://localhost:8086> and sign in.
 4. Optional: `docker compose run --rm tools scripts/seed_demo.py` creates the **demo** login and its sample data.
 
 Your session ends when you click **Log out**, after the inactivity timeout (default 60 minutes, `SESSION_TIMEOUT_MINUTES`), or when you reload the page — the app keeps no login cookie. After several wrong passwords the username is locked for a few minutes.
