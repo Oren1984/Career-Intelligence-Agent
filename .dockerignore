@@ -42,8 +42,7 @@ logs/
 
 # Personal documents (mounted at runtime instead)
 knowledge_base/*
-!knowledge_base/README.md
-!knowledge_base/_samples/
+!knowledge_base/.gitkeep
 docs/
 *.xlsx
 

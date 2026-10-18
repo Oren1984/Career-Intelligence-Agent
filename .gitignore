@@ -42,21 +42,24 @@ logs/
 CLAUDE.md
 
 # Internal Documentation
-# Internal development, audit, validation, and handover documents.
-docs/
-documentation/
+# Private files in docs/ (e.g. the personal Job_Search_Tracker.xlsx) stay local;
+# only the public project documentation in docs/documentation/ is tracked.
+docs/*
+!docs/documentation/
+/documentation/
+
+# Personal tracker workbooks and exports, database backups
+Job_Search_Tracker*.xlsx
+job_search_tracker_*.xlsx
+backups/
+exports/
+*.dump
 
 # ── Local Knowledge Base
 # Personal files in knowledge_base/ are never committed.
-# Only README.md and sample files are retained.
-knowledge_base/resume/
-knowledge_base/projects/
-knowledge_base/skills/
-knowledge_base/experience/
-knowledge_base/achievements/
-knowledge_base/strategy/
-knowledge_base/interview_prep/
-knowledge_base/general/
+# Everything except the placeholder is personal (mounted read-only into Docker).
+knowledge_base/*
+!knowledge_base/.gitkeep
 
 # Personal Profile
 data/personal_profile.json
