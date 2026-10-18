@@ -1,6 +1,5 @@
 # tests/test_israel_collectors.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for the Israeli job board collectors."""
 import pytest
 from datetime import datetime

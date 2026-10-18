@@ -1,6 +1,5 @@
 # tests/test_scoring.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for the match scoring engine."""
 import pytest
 from app.matching.scorer import Scorer, ScoreResult

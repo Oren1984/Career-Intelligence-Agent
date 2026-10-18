@@ -1,6 +1,5 @@
 # scripts/fetch_jobs.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Fetch jobs from configured collectors and persist to DB.
 
 Usage:

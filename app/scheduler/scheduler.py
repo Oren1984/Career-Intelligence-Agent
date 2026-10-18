@@ -1,6 +1,5 @@
 # scheduler/scheduler.py
-# This file is part of the OpenLLM project
-
+# Part of the Career Intelligence Agent project.
 """
 Scheduler module — optional background scheduling for collection and scoring runs.
 

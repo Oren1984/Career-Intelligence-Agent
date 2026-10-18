@@ -1,6 +1,5 @@
 # tests/test_gmail_mock.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for the Gmail mock client — does not send real emails."""
 from app.integrations.gmail.gmail_mock import GmailMockClient
 from app.integrations.gmail.gmail_models import GmailMessage, GmailSendResult

@@ -1,6 +1,5 @@
 # tests/test_database.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for database persistence and integrity."""
 from app.db.models import Job, Score, StatusHistory
 from app.collectors.base import RawJob

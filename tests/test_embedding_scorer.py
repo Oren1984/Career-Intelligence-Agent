@@ -1,6 +1,5 @@
 # tests/test_embedding_scorer.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for V3 embedding-based semantic scorer."""
 import pytest
 from unittest.mock import MagicMock, patch

@@ -1,6 +1,5 @@
 # llm/providers/openai_provider.py
-# This file is part of the OpenLLM project
-
+# Part of the Career Intelligence Agent project.
 """OpenAI LLM provider."""
 import os
 import logging

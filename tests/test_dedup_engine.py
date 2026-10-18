@@ -1,6 +1,5 @@
 # tests/test_dedup_engine.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for the layered deduplication engine."""
 from dataclasses import dataclass
 

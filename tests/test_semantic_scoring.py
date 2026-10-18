@@ -1,6 +1,5 @@
 # tests/test_semantic_scoring.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for V2 semantic scoring and combined scorer."""
 from unittest.mock import MagicMock
 

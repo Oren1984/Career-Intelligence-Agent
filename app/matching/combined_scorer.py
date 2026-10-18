@@ -1,6 +1,5 @@
 # matching/combined_scorer.py
-# This file is part of the OpenLLM project
-
+# Part of the Career Intelligence Agent project.
 """Combined scoring — merges keyword rules with semantic matching.
 
 Supports two semantic modes:

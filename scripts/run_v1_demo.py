@@ -1,6 +1,5 @@
 # scripts/run_v1_demo.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """V1 Demo Entrypoint — initialize DB, fetch Israeli source jobs, score, and report.
 
 Usage:

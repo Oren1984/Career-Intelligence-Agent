@@ -1,6 +1,5 @@
 # notifications/channels/telegram_channel.py
-# This file is part of the OpenLLM project
-
+# Part of the Career Intelligence Agent project.
 """Telegram bot notification channel."""
 import logging
 from typing import Any

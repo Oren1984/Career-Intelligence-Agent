@@ -1,6 +1,5 @@
 # matching/semantic_scorer.py
-# This file is part of the OpenLLM project
-
+# Part of the Career Intelligence Agent project.
 """Semantic matching module — theme-based scoring without external ML dependencies."""
 import logging
 from dataclasses import dataclass, field

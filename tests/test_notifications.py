@@ -1,6 +1,5 @@
 # tests/test_notifications.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for V3 job notification system."""
 import json
 from pathlib import Path

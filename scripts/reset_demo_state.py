@@ -1,6 +1,5 @@
 # scripts/reset_demo_state.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Reset a workspace's job data — delete its jobs and scores, fetch jobs, score them.
 
 Only the selected workspace's job pipeline rows (jobs, scores, status history,

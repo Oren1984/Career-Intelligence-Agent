@@ -1,6 +1,5 @@
 # tests/test_scheduler.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for V2 scheduling module."""
 import pytest
 from unittest.mock import MagicMock, patch

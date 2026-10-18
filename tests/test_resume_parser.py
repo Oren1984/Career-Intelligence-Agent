@@ -1,6 +1,5 @@
 # tests/test_resume_parser.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for V3 resume parser — text extraction, keyword fallback, LLM extraction, file writing."""
 import json
 import pytest

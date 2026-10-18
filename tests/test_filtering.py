@@ -1,6 +1,5 @@
 # tests/test_filtering.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for the filter engine."""
 import pytest
 from app.filtering.filter_engine import FilterEngine
