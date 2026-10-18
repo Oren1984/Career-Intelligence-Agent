@@ -1,0 +1,370 @@
+# Hebrew UI strings. Keys must match en.yaml (enforced by tests/test_i18n.py).
+app:
+  name: סוכן מודיעין קריירה
+
+nav:
+  group_jobs: משרות
+  group_knowledge: ידע
+  group_tracking: מעקב
+  group_support: תמיכה
+  dashboard: דשבורד
+  tracker: מעקב הגשות
+  decision: מסוף החלטות
+  classic: משרות (תצוגה קלאסית)
+  analytics: ניתוחים
+  review: סיכום שבועי
+  analyze: ניתוח משרה חיצונית
+  kb: מאגר ידע
+  qa: שאלות ותשובות קריירה
+  profile: פרופיל מועמד
+  help: מרכז עזרה
+
+sidebar:
+  language: שפה
+  workspace: סביבת עבודה
+  signed_in_as: "מחובר/ת בתור {user}"
+  logout: התנתקות
+  exec_mode: מצב הפעלה
+  exec_help: "היברידי: ניקוד קריירה + ראיות ממאגר הידע. סוכן בלבד: ניקוד ללא מאגר הידע. RAG בלבד: אחזור ידע ללא ניקוד."
+
+workspace:
+  personal: אישית
+  demo: הדגמה (נתונים לדוגמה)
+
+common:
+  all: הכול
+  help: עזרה
+  details: פרטים
+  save: שמירה
+  close: סגירה
+  cancel: ביטול
+  working: מעבד…
+  category: קטגוריה
+  count: כמות
+  view_data: הצגת הנתונים כטבלה
+  no_data: אין עדיין נתונים.
+  load_failed: "טעינת הנתונים נכשלה: {error}"
+  save_failed: השמירה נכשלה. נסו שוב.
+
+kpi:
+  total_jobs: סה"כ משרות
+  career_scored: נוקדו (קריירה)
+  classic_scored: נוקדו (קלאסי)
+  avg_fit: התאמה ממוצעת
+  unreviewed: טרם נבדקו
+  high_ratio: שיעור התאמה גבוהה
+
+labels:
+  apply_now: להגיש עכשיו
+  apply_after_fix: להגיש אחרי תיקון קטן
+  stretch: הזדמנות מאתגרת
+  wrong_timing: תפקיד טוב, תזמון לא נכון
+  wrong_role: חברה טובה, תפקיד לא מתאים
+  not_worth_it: לא שווה
+  market_signal: איתות שוק בלבד
+  not_scored: טרם נוקד
+
+job_status:
+  new: חדש
+  reviewing: בבדיקה
+  saved: נשמר
+  ignored: הוסתר
+  applied_manual: הוגש (ידנית)
+
+levels:
+  high: גבוהה
+  medium: בינונית
+  low: נמוכה
+  unscored: ללא ניקוד
+
+feedback:
+  liked: אהבתי
+  applied: הגשתי
+  not_interested: לא מעניין
+  too_senior: בכיר מדי
+  wrong_direction: כיוון לא נכון
+  irrelevant: לא רלוונטי
+  good_fit: התאמה טובה
+
+filters:
+  status: סטטוס
+  label: המלצה
+  level: רמת התאמה קלאסית
+  min_fit: ציון התאמה מינימלי
+  search: חיפוש
+  search_ph: תפקיד, חברה או תיאור
+
+source_modes:
+  mock: Mock (נתוני הדגמה)
+  rss: פידים של RSS
+  israel: מקורות ישראליים
+
+pipeline:
+  title: צינור משרות
+  caption: איסוף וניקוד מתבצעים רק בלחיצה. שום דבר לא רץ אוטומטית בעת ההפעלה.
+  source: מקור
+  fetch: איסוף משרות
+  fetching: אוסף משרות…
+  fetched: "נאספו {collected}, נוספו {inserted}, דולגו {skipped} כפילויות ({errors} שגיאות מקור)."
+  no_collectors: אין מקורות פעילים עבור בחירה זו.
+  score_classic: ניקוד (קלאסי)
+  score_career: ניקוד קריירה
+  score_career_help: ניקוד החלטת קריירה רב־ממדי למשרות שעדיין לא נוקדו.
+  scored_classic: "הניקוד הקלאסי הושלם: {n} משרות."
+  scored_career: "ניקוד הקריירה הושלם: {n} משרות."
+  reset_confirm: ידוע לי שהפעולה מוחקת את המשרות והציונים של סביבת עבודה זו
+  reset: איפוס נתוני משרות
+  reset_done: נתוני המשרות אופסו, נאספו מחדש ונוקדו.
+  failed: "הפעולה נכשלה: {error}"
+
+exec:
+  hybrid: היברידי (RAG + סוכן)
+  agent_only: סוכן בלבד
+  rag_only: RAG בלבד
+  hybrid_desc: ניקוד קריירה עם ראיות ממאגר הידע
+  agent_only_desc: ניקוד קריירה בלבד — מאגר הידע כבוי
+  rag_only_desc: אחזור ידע בלבד — ניקוד הקריירה כבוי
+
+decision:
+  title: מסוף החלטות
+  subtitle: משרות מדורגות לפי מנוע החלטות הקריירה הרב־ממדי.
+  empty: אין עדיין משרות עם ניקוד קריירה. פתחו את "צינור משרות", אספו משרות והריצו ניקוד קריירה.
+  count: "{n} משרות · ממוינות לפי ציון התאמה"
+  fit: התאמה
+  breakdown: פירוט ציון ההתאמה
+  dimension: ממד
+  score_0_10: ציון (0–10)
+  strengths: חוזקות
+  gaps: פערים
+  risks: סיכונים
+  description: תיאור המשרה
+  intelligence: מודיעין משרה
+  seniority: בכירות
+  work_mode: מודל עבודה
+  direction: כיוון
+  domain: תחום
+  portfolio: התאמת פורטפוליו
+  lead_with: "להוביל עם: {project}"
+  gap_severity: חומרת פערים
+  easy_gaps: קל לסגירה
+  hard_gaps: פערים קשים
+  actions: פעולות מומלצות
+  view_posting: צפייה במודעה
+  feedback: המשוב שלך
+  feedback_saved: "המשוב \"{signal}\" נשמר."
+  update_status: עדכון סטטוס
+  status_saved: "הסטטוס עודכן ל־{status}."
+
+classic:
+  title: משרות (תצוגה קלאסית)
+  subtitle: ציוני התאמה לפי מילות מפתח וסמנטיקה (התצוגה המקורית של V1).
+  sources: מקורות נוכחיים
+  empty: אין משרות התואמות את הסינון.
+  count: "מוצגות {n} משרות"
+  select_hint: בחרו שורה כדי לפתוח את הפרטים.
+  col_title: תפקיד
+  col_company: חברה
+  col_location: מיקום
+  col_score: ציון
+  col_semantic: סמנטי
+  col_level: רמה
+  col_status: סטטוס
+  source: מקור
+  detail: "פרטי משרה — {title}"
+  keyword: מילות מפתח
+  matched: התאמות
+
+analytics:
+  title: ניתוחים
+  subtitle: מאיפה מגיעות המשרות ואיך הן מנוקדות.
+  empty: אין עדיין משרות. אספו משרות ממסוף ההחלטות.
+  by_label: תוויות המלצה
+  by_source: משרות לפי מקור
+  by_level: רמות התאמה קלאסיות
+  feedback: אותות משוב
+
+review:
+  title: סיכום שבועי
+  subtitle: סיכום אסטרטגי של מחזור החיפוש (דורש משרות עם ניקוד קריירה).
+  generate: יצירת סיכום שבועי
+  not_enough: אין עדיין מספיק נתוני ניקוד קריירה. הריצו קודם ניקוד קריירה.
+  empty: לחצו על "יצירת סיכום שבועי" כדי להפיק סיכום.
+  top: ההזדמנויות המובילות במחזור
+  focus7: "מיקוד: 7 הימים הבאים"
+  focus30: "מיקוד: 30 הימים הבאים"
+  missing_skills: מיומנויות חסרות חוזרות
+  skill_freq: "• **{skill}** — מופיע ב־{n} משרות"
+  direction: התפלגות כיווני משרות
+  strongest: "הכיוון החזק ביותר לפרופיל שלך: **{direction}**"
+  low_value: דפוסים בעלי ערך נמוך שכדאי להתעלם מהם
+
+profile:
+  title: פרופיל מועמד
+  subtitle: הפרופיל שמשמש לניקוד קריירה ולניתוח משרות.
+  load_failed: טעינת פרופיל המועמד נכשלה.
+  legacy_imported: קובץ הפרופיל האישי הקיים יובא.
+  summary: תקציר
+  target_roles: תפקידי יעד
+  primary_track: מסלול קריירה ראשי
+  experience: רמת ניסיון
+  work_mode: מודל עבודה מועדף
+  short_goal: מטרה לטווח קצר
+  long_goal: מטרה לטווח ארוך
+  domains: תחומים מועדפים
+  skills: מיומנויות
+  projects: פרויקטים בפורטפוליו
+  preferred_tech: טכנולוגיות מועדפות
+  learn: מוכנות ללמוד
+  avoided_tech: טכנולוגיות להימנע מהן
+  tracks: מסלולי קריירה
+  track_primary: ראשי
+  track_ok: מקובל
+  track_avoid: להימנע
+  prompt_string: טקסט הפרופיל המשמש בניתוח
+  edit: עריכת פרופיל אישי
+  edit_caption: נשמר ברשומה של סביבת עבודה זו במסד הנתונים. שדות שאינם ריקים גוברים על קובץ הפרופיל הבסיסי.
+  f_name: שם מלא
+  f_headline: כותרת מקצועית
+  f_target_roles: תפקידי יעד (מופרדים בפסיקים)
+  f_strong_skills: מיומנויות חזקות (מופרדות בפסיקים)
+  f_weak_skills: פערים ידועים (מופרדים בפסיקים)
+  f_willingness_to_learn: מוכנות ללמוד (מופרד בפסיקים)
+  f_preferred_technologies: טכנולוגיות מועדפות (מופרדות בפסיקים)
+  f_avoided_technologies: טכנולוגיות להימנע מהן (מופרדות בפסיקים)
+  f_resume_summary: תקציר קורות חיים
+  f_notes: הערות
+  save: שמירת פרופיל
+  saved: הפרופיל נשמר.
+  invalid: "פרופיל לא תקין: {error}"
+
+analyze:
+  title: ניתוח משרה חיצונית
+  subtitle: הדביקו כל תיאור משרה וקבלו ניתוח החלטת קריירה מיידי.
+  mode: "מצב: {mode}"
+  job_title: שם התפקיד (לא חובה)
+  company: חברה (לא חובה)
+  location: מיקום (לא חובה)
+  paste: תיאור המשרה
+  paste_ph: הדביקו כאן את תיאור המשרה המלא. ככל שיש יותר פרטים, הניתוח מדויק יותר.
+  btn_full: ניתוח המשרה
+  btn_apply: האם להגיש?
+  btn_portfolio: איזה פרויקט להבליט?
+  need_text: הדביקו קודם תיאור משרה.
+  needs_scoring: פעולה זו דורשת ניקוד קריירה. עברו ל"סוכן בלבד" או "היברידי" בסרגל הצד.
+  spinner_hybrid: מריץ ניתוח קריירה עם ראיות מהידע…
+  spinner_agent_only: מריץ ניתוח החלטת קריירה…
+  spinner_rag_only: מאחזר ראיות ממאגר הידע…
+  failed: "הניתוח נכשל: {error}"
+  last_run: הרצה אחרונה
+  status_success: הצלחה
+  status_error: שגיאה
+  components_hybrid: "מנקד קריירה ✓ · אחזור ידע ✓"
+  components_agent: "מנקד קריירה ✓ · אחזור ידע —"
+  components_rag: "מנקד קריירה — · אחזור ידע ✓"
+  kb_evidence: ראיות ממאגר הידע
+  coverage: כיסוי
+  kb_size: "מאגר הידע: {n} מקטעים"
+  no_evidence: לא אוחזרו ראיות. ודאו שמאגר הידע מסונכרן ומכיל מסמכים רלוונטיים.
+  chunks: מקטעים שאוחזרו
+  project_matches: התאמות פרויקטים
+  skill_matches: התאמות מיומנויות
+  relevance: רלוונטיות
+  project_evidence: ראיות מפרויקטים
+  skill_evidence: ראיות ממיומנויות
+  experience_evidence: ראיות מניסיון
+  raw_context: הצגת הקשר הראיות הגולמי
+  fit_score: ציון התאמה
+  dimensions: פירוט לפי ממדים
+  should_apply: האם להגיש?
+  action_plan: תוכנית פעולה
+  portfolio: המלצת פורטפוליו
+  direction: כיוון קריירה
+  track: מסלול
+  detected: זוהה מתוך המודעה
+  tech: טכנולוגיות שזוהו
+  local_evidence: ראיות מהידע המקומי
+  agent_only_note: מצב "סוכן בלבד" — אחזור הידע כבוי.
+  no_kb: מאגר הידע אינו מסונכרן. השתמשו בעמוד מאגר הידע כדי לאפשר אחזור ראיות.
+  quick_actions: פעולות מהירות
+  best_match: "ההתאמה הטובה ביותר: **{project}**"
+  all_ranked: כל הפרויקטים מדורגים
+  rank: דירוג
+  project: פרויקט
+  match_score: ציון התאמה
+  matched_tech: טכנולוגיות תואמות
+
+apply_decision:
+  "YES": כן
+  "NO": לא
+  CONDITIONAL: בתנאים
+
+direction:
+  aligned: "🟢 תואם את המסלול שלך"
+  partial: "🟡 תואם חלקית"
+  transition: "🔵 תפקיד מעבר טוב"
+  off-track: "🔴 מחוץ למסלול היעד"
+  unknown: "⚪ כיוון לא ברור"
+
+coverage:
+  high: חזק
+  medium: בינוני
+  low: חלש
+  none: אין
+
+kb:
+  title: מאגר ידע
+  subtitle: מסמכי הקריירה הפרטיים שלך, מחולקים ומוטמעים מקומית לחיפוש סמנטי.
+  actions: פעולות
+  ingest: סנכרון מאגר הידע
+  ingest_help: מוסיף מסמכים חדשים, מחליף מסמכים שנערכו ומסיר מסמכים שנמחקו. מסמכים ללא שינוי מדולגים.
+  rebuild: בנייה מחדש של הכול
+  rebuild_help: מחלק ומטמיע מחדש את כל המסמכים.
+  types: "קבצים נתמכים: .md .txt .pdf .json"
+  empty: מאגר הידע עדיין לא סונכרן. הוסיפו מסמכים ולחצו על "סנכרון מאגר הידע".
+  documents: מסמכים
+  chunks: מקטעים
+  embedded: מקטעים מוטמעים
+  backend_vector: חיפוש סמנטי (pgvector) פעיל. במקרה של תקלה נעשה מעבר אוטומטי לחיפוש TF-IDF.
+  backend_tfidf: החיפוש הסמנטי אינו זמין — נעשה שימוש בחיפוש מילות מפתח (TF-IDF).
+  model_error: "מצב מודל ההטמעה: {error}"
+  last_sync: "סנכרון אחרון: {when}"
+  by_category: מסמכים לפי קטגוריה
+  report: "תוצאת הסנכרון — נוספו {added}, עודכנו {updated}, ללא שינוי {unchanged}, הוסרו {removed}; הוטמעו {embedded} מקטעים."
+  syncing: מסנכרן מסמכים…
+  sync_failed: "הסנכרון נכשל: {error}"
+  location: מיקום המסמכים
+  demo_location: סביבת ההדגמה משתמשת במסמכים הסינתטיים שב־demo/knowledge_base/.
+  personal_location: שימו את המסמכים בתיקיות אלה (ב־Docker התיקייה knowledge_base/ מחוברת לקריאה בלבד). הן אינן נכללות ב־Git ואינן יוצאות מהמחשב.
+  model_note: "מודל ההטמעה: {model} (רץ מקומית, אנגלית ועברית)."
+
+qa:
+  title: שאלות ותשובות קריירה
+  subtitle: שאלו שאלות על חומרי הקריירה שלכם; התשובות מבוססות על מאגר הידע.
+  not_ready: מאגר הידע עדיין לא סונכרן. פתחו את מאגר הידע ולחצו על "סנכרון מאגר הידע".
+  examples: שאלות לדוגמה
+  type_own: "— כתבו שאלה משלכם —"
+  question: השאלה שלך
+  placeholder: לדוגמה, איזה מהפרויקטים שלי מדגים הכי טוב עבודה עם API בצד השרת?
+  ask: שאלו
+  need_question: כתבו שאלה או בחרו דוגמה.
+  searching: מחפש במאגר הידע…
+  answer: תשובה
+  confidence: רמת ביטחון
+  evidence_n: "{n} מקטעי ראיות"
+  tip: הוסיפו מסמכים למאגר הידע וסנכרנו שוב כדי לקבל תשובות טובות יותר.
+  sources: מקורות
+  view_evidence: "הצגת הראיות ({n} מקטעים)"
+  q1: איזה מהפרויקטים שלי מדגים הכי טוב עבודה עם RAG או מודלי שפה?
+  q2: אילו ראיות יש לי לניסיון עם Docker ו־Kubernetes?
+  q3: מהם פערי המיומנויות החוזרים שעליי לטפל בהם?
+  q4: איזה פרויקט כדאי להבליט לתפקיד MLOps Engineer?
+  q5: איזה ניסיון יש לי עם AWS ותשתיות ענן?
+  q6: אילו תפקידים מתאימים ביותר לפרופיל הנוכחי שלי?
+
+help:
+  title: מרכז עזרה
+  subtitle: איך עובד סוכן מודיעין הקריירה V2.0 — חפשו או עיינו במאמרים שלהלן.
+  search: חיפוש בעזרה
+  search_ph: לדוגמה, גיבוי, עברית, ייבוא מעקב
+  results: "{n} מאמרים תואמים"
+  no_results: אין מאמרים התואמים לחיפוש.

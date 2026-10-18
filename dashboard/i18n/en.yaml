@@ -1,0 +1,370 @@
+# English UI strings (reference language). Keep keys in sync with he.yaml.
+app:
+  name: Career Intelligence Agent
+
+nav:
+  group_jobs: Jobs
+  group_knowledge: Knowledge
+  group_tracking: Tracking
+  group_support: Support
+  dashboard: Dashboard
+  tracker: Application Tracker
+  decision: Decision Console
+  classic: Classic Jobs
+  analytics: Analytics
+  review: Weekly Review
+  analyze: Analyze External Job
+  kb: Knowledge Base
+  qa: Career Q&A
+  profile: Candidate Profile
+  help: Help Center
+
+sidebar:
+  language: Language
+  workspace: Workspace
+  signed_in_as: "Signed in as {user}"
+  logout: Log out
+  exec_mode: Execution mode
+  exec_help: "Hybrid: career scoring + knowledge-base evidence. Agent Only: scoring without the knowledge base. RAG Only: knowledge retrieval without scoring."
+
+workspace:
+  personal: Personal
+  demo: Demo (sample data)
+
+common:
+  all: All
+  help: Help
+  details: Details
+  save: Save
+  close: Close
+  cancel: Cancel
+  working: Working…
+  category: Category
+  count: Count
+  view_data: View data as a table
+  no_data: No data yet.
+  load_failed: "Could not load data: {error}"
+  save_failed: Could not save. Please try again.
+
+kpi:
+  total_jobs: Total jobs
+  career_scored: Career scored
+  classic_scored: Classic scored
+  avg_fit: Average fit
+  unreviewed: Unreviewed
+  high_ratio: High-match ratio
+
+labels:
+  apply_now: Apply Now
+  apply_after_fix: Apply After Small Fix
+  stretch: Stretch Opportunity
+  wrong_timing: Good Role, Wrong Timing
+  wrong_role: Good Company, Wrong Role
+  not_worth_it: Not Worth It
+  market_signal: Market Signal Only
+  not_scored: Not Yet Scored
+
+job_status:
+  new: New
+  reviewing: Reviewing
+  saved: Saved
+  ignored: Ignored
+  applied_manual: Applied (manually)
+
+levels:
+  high: High
+  medium: Medium
+  low: Low
+  unscored: Unscored
+
+feedback:
+  liked: Liked
+  applied: Applied
+  not_interested: Not interested
+  too_senior: Too senior
+  wrong_direction: Wrong direction
+  irrelevant: Irrelevant
+  good_fit: Good fit
+
+filters:
+  status: Status
+  label: Recommendation
+  level: Classic match level
+  min_fit: Minimum fit score
+  search: Search
+  search_ph: Title, company or description
+
+source_modes:
+  mock: Mock (demo data)
+  rss: RSS feeds
+  israel: Israeli sources
+
+pipeline:
+  title: Job pipeline
+  caption: Collection and scoring run only when you click. Nothing runs automatically at startup.
+  source: Source
+  fetch: Fetch jobs
+  fetching: Fetching jobs…
+  fetched: "Collected {collected}, inserted {inserted}, skipped {skipped} duplicates ({errors} source errors)."
+  no_collectors: No collectors are enabled for this source.
+  score_classic: Score (classic)
+  score_career: Career score
+  score_career_help: Multi-factor career decision scoring for jobs that have no career score yet.
+  scored_classic: "Classic scoring complete: {n} jobs."
+  scored_career: "Career scoring complete: {n} jobs."
+  reset_confirm: I understand this deletes this workspace's jobs and scores
+  reset: Reset job data
+  reset_done: Job data was reset, re-fetched and scored.
+  failed: "Action failed: {error}"
+
+exec:
+  hybrid: Hybrid (RAG + Agent)
+  agent_only: Agent Only
+  rag_only: RAG Only
+  hybrid_desc: Career scoring with knowledge-base evidence
+  agent_only_desc: Career scoring only — knowledge base disabled
+  rag_only_desc: Knowledge retrieval only — career scoring disabled
+
+decision:
+  title: Decision Console
+  subtitle: Jobs ranked by the multi-factor career decision engine.
+  empty: No career-scored jobs yet. Open “Job pipeline”, fetch jobs, then run Career score.
+  count: "{n} jobs · sorted by fit score"
+  fit: Fit
+  breakdown: Fit score breakdown
+  dimension: Dimension
+  score_0_10: Score (0–10)
+  strengths: Strengths
+  gaps: Gaps
+  risks: Risks
+  description: Job description
+  intelligence: Job intelligence
+  seniority: Seniority
+  work_mode: Work mode
+  direction: Direction
+  domain: Domain
+  portfolio: Portfolio match
+  lead_with: "Lead with: {project}"
+  gap_severity: Gap severity
+  easy_gaps: Easy to close
+  hard_gaps: Hard gaps
+  actions: Action items
+  view_posting: View job posting
+  feedback: Your feedback
+  feedback_saved: "Feedback “{signal}” recorded."
+  update_status: Update status
+  status_saved: "Status changed to {status}."
+
+classic:
+  title: Classic Jobs
+  subtitle: Keyword + semantic match scores (the original V1 view).
+  sources: Current sources
+  empty: No jobs match the current filters.
+  count: "{n} jobs shown"
+  select_hint: Select a row to open its details.
+  col_title: Title
+  col_company: Company
+  col_location: Location
+  col_score: Score
+  col_semantic: Semantic
+  col_level: Level
+  col_status: Status
+  source: Source
+  detail: "Job detail — {title}"
+  keyword: Keyword
+  matched: Matched
+
+analytics:
+  title: Analytics
+  subtitle: Where jobs come from and how they score.
+  empty: No jobs yet. Fetch jobs from the Decision Console.
+  by_label: Recommendation labels
+  by_source: Jobs by source
+  by_level: Classic match levels
+  feedback: Feedback signals
+
+review:
+  title: Weekly Review
+  subtitle: A strategic summary of your search cycle (needs career-scored jobs).
+  generate: Generate weekly review
+  not_enough: Not enough career-scored data yet. Run Career score first.
+  empty: Click “Generate weekly review” to produce a summary.
+  top: Top opportunities this cycle
+  focus7: "Focus: next 7 days"
+  focus30: "Focus: next 30 days"
+  missing_skills: Recurring missing skills
+  skill_freq: "• **{skill}** — appears in {n} job(s)"
+  direction: Job direction distribution
+  strongest: "Strongest direction for your profile: **{direction}**"
+  low_value: Low-value patterns to ignore
+
+profile:
+  title: Candidate Profile
+  subtitle: The profile used by career scoring and job analysis.
+  load_failed: Could not load the candidate profile.
+  legacy_imported: Imported your existing personal profile file.
+  summary: Summary
+  target_roles: Target roles
+  primary_track: Primary career track
+  experience: Experience level
+  work_mode: Work mode preference
+  short_goal: Short-term goal
+  long_goal: Long-term goal
+  domains: Preferred domains
+  skills: Skills
+  projects: Portfolio projects
+  preferred_tech: Preferred technologies
+  learn: Willing to learn
+  avoided_tech: Technologies to avoid
+  tracks: Career tracks
+  track_primary: Primary
+  track_ok: Acceptable
+  track_avoid: Avoid
+  prompt_string: Profile text used in analysis
+  edit: Edit personal profile
+  edit_caption: Saved in this workspace's database record. Non-empty fields override the base profile file.
+  f_name: Full name
+  f_headline: Headline
+  f_target_roles: Target roles (comma-separated)
+  f_strong_skills: Strong skills (comma-separated)
+  f_weak_skills: Known gaps (comma-separated)
+  f_willingness_to_learn: Willing to learn (comma-separated)
+  f_preferred_technologies: Preferred technologies (comma-separated)
+  f_avoided_technologies: Technologies to avoid (comma-separated)
+  f_resume_summary: Resume summary
+  f_notes: Notes
+  save: Save profile
+  saved: Profile saved.
+  invalid: "Invalid profile: {error}"
+
+analyze:
+  title: Analyze External Job
+  subtitle: Paste any job description for an instant career decision analysis.
+  mode: "Mode: {mode}"
+  job_title: Job title (optional)
+  company: Company (optional)
+  location: Location (optional)
+  paste: Job description
+  paste_ph: Paste the full job description here. More detail gives a more accurate analysis.
+  btn_full: Analyze this job
+  btn_apply: Should I apply?
+  btn_portfolio: Which project should I highlight?
+  need_text: Paste a job description first.
+  needs_scoring: This action needs career scoring. Switch to Agent Only or Hybrid in the sidebar.
+  spinner_hybrid: Running career analysis with knowledge evidence…
+  spinner_agent_only: Running career decision analysis…
+  spinner_rag_only: Retrieving knowledge-base evidence…
+  failed: "Analysis failed: {error}"
+  last_run: Last run
+  status_success: Success
+  status_error: Error
+  components_hybrid: "Career scorer ✓ · Knowledge retrieval ✓"
+  components_agent: "Career scorer ✓ · Knowledge retrieval —"
+  components_rag: "Career scorer — · Knowledge retrieval ✓"
+  kb_evidence: Knowledge-base evidence
+  coverage: Coverage
+  kb_size: "Knowledge base: {n} chunks"
+  no_evidence: No evidence retrieved. Make sure the knowledge base is synced and contains relevant documents.
+  chunks: Chunks retrieved
+  project_matches: Project matches
+  skill_matches: Skill matches
+  relevance: relevance
+  project_evidence: Project evidence
+  skill_evidence: Skill evidence
+  experience_evidence: Experience evidence
+  raw_context: View raw evidence context
+  fit_score: Fit score
+  dimensions: Dimension breakdown
+  should_apply: Should I apply?
+  action_plan: Action plan
+  portfolio: Portfolio recommendation
+  direction: Career direction
+  track: Track
+  detected: Detected from the posting
+  tech: Technologies detected
+  local_evidence: Local knowledge evidence
+  agent_only_note: Agent Only mode — knowledge retrieval is disabled.
+  no_kb: No knowledge base is synced. Use the Knowledge Base page to enable evidence retrieval.
+  quick_actions: Quick actions
+  best_match: "Best match: **{project}**"
+  all_ranked: All projects ranked
+  rank: Rank
+  project: Project
+  match_score: Match score
+  matched_tech: Matched technologies
+
+apply_decision:
+  "YES": "YES"
+  "NO": "NO"
+  CONDITIONAL: CONDITIONAL
+
+direction:
+  aligned: "🟢 Aligned with your path"
+  partial: "🟡 Partially aligned"
+  transition: "🔵 Good transition role"
+  off-track: "🔴 Off your target track"
+  unknown: "⚪ Direction unclear"
+
+coverage:
+  high: Strong
+  medium: Moderate
+  low: Weak
+  none: None
+
+kb:
+  title: Knowledge Base
+  subtitle: Your private career documents, chunked and embedded locally for semantic search.
+  actions: Actions
+  ingest: Sync knowledge base
+  ingest_help: Adds new documents, replaces edited ones and removes deleted ones. Unchanged documents are skipped.
+  rebuild: Rebuild everything
+  rebuild_help: Re-chunks and re-embeds every document.
+  types: "Supported files: .md .txt .pdf .json"
+  empty: The knowledge base has not been synced yet. Add documents and click “Sync knowledge base”.
+  documents: Documents
+  chunks: Chunks
+  embedded: Embedded chunks
+  backend_vector: Semantic search (pgvector) is active. TF-IDF is used automatically as a fallback.
+  backend_tfidf: Semantic search is unavailable — keyword (TF-IDF) search is being used.
+  model_error: "Embedding model status: {error}"
+  last_sync: "Last synced: {when}"
+  by_category: Documents by category
+  report: "Sync result — added {added}, updated {updated}, unchanged {unchanged}, removed {removed}; {embedded} chunks embedded."
+  syncing: Syncing documents…
+  sync_failed: "Sync failed: {error}"
+  location: Document location
+  demo_location: The demo workspace uses the synthetic documents shipped in demo/knowledge_base/.
+  personal_location: Put your documents in these folders (Docker mounts knowledge_base/ read-only). They are git-ignored and never leave this machine.
+  model_note: "Embedding model: {model} (runs locally, English and Hebrew)."
+
+qa:
+  title: Career Q&A
+  subtitle: Ask questions about your career materials; answers are grounded in your knowledge base.
+  not_ready: The knowledge base is not synced yet. Open Knowledge Base and click “Sync knowledge base”.
+  examples: Example questions
+  type_own: "— type your own question —"
+  question: Your question
+  placeholder: e.g. Which of my projects best demonstrates backend API work?
+  ask: Ask
+  need_question: Enter a question or pick an example.
+  searching: Searching the knowledge base…
+  answer: Answer
+  confidence: Confidence
+  evidence_n: "{n} evidence chunks"
+  tip: Add more documents to your knowledge base and sync again for better answers.
+  sources: Sources
+  view_evidence: "View evidence ({n} chunks)"
+  q1: Which of my projects best demonstrates RAG or LLM work?
+  q2: What evidence do I have for Docker and Kubernetes experience?
+  q3: What are the recurring skill gaps I should address?
+  q4: Which project should I highlight for an MLOps Engineer role?
+  q5: What experience do I have with AWS and cloud infrastructure?
+  q6: Which roles align best with my current profile?
+
+help:
+  title: Help Center
+  subtitle: How Career Intelligence Agent V2.0 works — search or browse the articles below.
+  search: Search help
+  search_ph: e.g. backup, Hebrew, tracker import
+  results: "{n} matching articles"
+  no_results: No articles match your search.
