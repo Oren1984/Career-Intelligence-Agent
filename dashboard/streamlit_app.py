@@ -16,25 +16,24 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import streamlit as st  # noqa: E402
 
-from app.workspace import workspace_from_env  # noqa: E402
 from dashboard.i18n import LANGUAGES  # noqa: E402
+from dashboard.ui.auth_session import enforce_timeout, is_authenticated, save_language, sign_out  # noqa: E402
 from dashboard.ui.components import footer  # noqa: E402
-from dashboard.ui.context import AUTH_KEY, LANG_KEY, close_run_session, lang, t  # noqa: E402
+from dashboard.ui.context import AUTH_KEY, LANG_KEY, close_run_session, lang, t, username  # noqa: E402
 from dashboard.ui.theme import apply_theme  # noqa: E402
 from dashboard.views import (  # noqa: E402
     analytics, analyze_job, career_qa, classic_jobs, decision_console, help_center,
-    knowledge_base, profile, weekly_review,
+    knowledge_base, login, profile, weekly_review,
 )
 from dashboard.views.analyze_job import EXEC_MODES  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
+PAGE_PATHS = ("decision", "jobs", "analytics", "weekly-review", "analyze", "knowledge-base",
+              "career-qa", "profile", "help")
+
 st.set_page_config(page_title="Career Intelligence Agent", page_icon="🎯", layout="wide")
 st.session_state.setdefault(LANG_KEY, "en")
-apply_theme(lang())
-
-# Until the login screen exists (Phase 3) the workspace comes from $WORKSPACE.
-st.session_state.setdefault(AUTH_KEY, {"username": "local", "workspace": workspace_from_env()})
 
 
 def _pages() -> dict:
@@ -56,17 +55,40 @@ def _pages() -> dict:
 def _sidebar() -> None:
     with st.sidebar:
         st.markdown(f"### 🎯 {t('app.name')}")
-        st.caption(f"{t('sidebar.workspace')}: **{t('workspace.' + st.session_state[AUTH_KEY]['workspace'])}**")
+        st.caption(t("sidebar.signed_in_as", user=username()) + " · "
+                   + f"{t('sidebar.workspace')}: **{t('workspace.' + st.session_state[AUTH_KEY]['workspace'])}**")
         st.selectbox(
             t("sidebar.language"), list(LANGUAGES), key=LANG_KEY, format_func=lambda code: LANGUAGES[code],
+            on_change=save_language,
         )
         st.radio(
             t("sidebar.exec_mode"), EXEC_MODES, key="exec_mode",
             format_func=lambda m: t(f"exec.{m}"), help=t("sidebar.exec_help"),
         )
+        if st.button(t("sidebar.logout"), icon="🚪", use_container_width=True):
+            sign_out()
+            st.rerun()
 
 
 def main() -> None:
+    enforce_timeout()
+    if not is_authenticated():
+        apply_theme(lang())
+        # Signed out: every URL (including bookmarked page URLs) renders the login form and no
+        # app page or navigation link exists. After sign-in the same URL opens the real page.
+        gate = st.navigation(
+            [st.Page(login.render, title=t("login.submit"), icon="🔐", url_path="login", default=True)]
+            + [st.Page(lambda: login.render(), title=t("login.submit"), url_path=path) for path in PAGE_PATHS],
+            position="hidden",
+        )
+        try:
+            gate.run()
+        finally:
+            close_run_session()
+            footer()
+        return
+
+    apply_theme(lang())
     p = _pages()
     nav = st.navigation({
         t("nav.group_jobs"): [p["decision"], p["classic"], p["analytics"], p["review"]],

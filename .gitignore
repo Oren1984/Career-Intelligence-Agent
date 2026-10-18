@@ -10,6 +10,9 @@ __pycache__/
 # Environment variables
 .env
 
+# Local login credentials (bcrypt hashes) — managed by scripts/create_user.py
+config/users.yaml
+
 # Database files
 data/*.db
 

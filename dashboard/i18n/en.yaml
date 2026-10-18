@@ -368,3 +368,15 @@ help:
   search_ph: e.g. backup, Hebrew, tracker import
   results: "{n} matching articles"
   no_results: No articles match your search.
+
+login:
+  subtitle: Sign in to your private career workspace.
+  username: Username
+  password: Password
+  submit: Sign in
+  invalid: Incorrect username or password.
+  locked: "Too many failed attempts. Try again in {minutes} minute(s)."
+  no_users: "No login is configured yet. Create one with: python scripts/create_user.py <username> --workspace personal"
+  expired: Your session expired after a period of inactivity. Please sign in again.
+  logged_out: You have been signed out.
+  privacy: Single-owner application. All data stays on this machine.

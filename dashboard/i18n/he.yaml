@@ -368,3 +368,15 @@ help:
   search_ph: לדוגמה, גיבוי, עברית, ייבוא מעקב
   results: "{n} מאמרים תואמים"
   no_results: אין מאמרים התואמים לחיפוש.
+
+login:
+  subtitle: התחברו לסביבת הקריירה הפרטית שלכם.
+  username: שם משתמש
+  password: סיסמה
+  submit: התחברות
+  invalid: שם המשתמש או הסיסמה שגויים.
+  locked: "יותר מדי ניסיונות כושלים. נסו שוב בעוד {minutes} דקות."
+  no_users: "עדיין לא הוגדרה כניסה. צרו משתמש עם: python scripts/create_user.py <username> --workspace personal"
+  expired: פג תוקף ההפעלה עקב חוסר פעילות. התחברו מחדש.
+  logged_out: התנתקתם בהצלחה.
+  privacy: אפליקציה לבעלים יחיד. כל הנתונים נשארים במחשב זה.
