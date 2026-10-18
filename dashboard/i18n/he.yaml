@@ -33,6 +33,7 @@ workspace:
 
 common:
   all: הכול
+  any: הכול (ללא סינון)
   help: עזרה
   details: פרטים
   save: שמירה
@@ -380,3 +381,88 @@ login:
   expired: פג תוקף ההפעלה עקב חוסר פעילות. התחברו מחדש.
   logged_out: התנתקתם בהצלחה.
   privacy: אפליקציה לבעלים יחיד. כל הנתונים נשארים במחשב זה.
+
+tracker:
+  title: מעקב הגשות
+  subtitle: כל המשרות שהגשתם אליהן — עריכה ישירה, ייבוא מ־Excel וייצוא אליו.
+  search_ph: חברה, תפקיד, מיקום או הערות
+  count: "מוצגות {shown} מתוך {total} הגשות"
+  empty: אין עדיין הגשות. הוסיפו שורה בטבלה שלמטה או ייבאו את חוברת ה־Excel שלכם.
+  col_date: תאריך הגשה
+  col_company: שם החברה
+  col_title: שם המשרה
+  col_track: מסלול מקצועי
+  col_source: מקור המשרה
+  col_location: מיקום ומודל עבודה
+  col_salary: טווח שכר
+  col_status: סטטוס נוכחי
+  col_days: ימים מהגשה
+  col_notes: הערות, קישור ואיש קשר
+  col_closure: סיבת סגירה / פידבק
+  col_unmapped: נשמר מהייבוא
+  unmapped_help: ערכים מחוברת שיובאה שלא תאמו לרשימות. בחרו ערך מהרשימה כדי להחליף אותם.
+  col_last_update: עדכון אחרון
+  not_set: לא הוגדר
+  save: שמירת שינויים
+  saved: "נשמר: נוספו {added}, עודכנו {updated}, נמחקו {deleted}."
+  row_error: "שורה {n}: {error}"
+  err_company_title_required: שם החברה ושם המשרה הם שדות חובה.
+  err_invalid_status: הסטטוס אינו ברשימה.
+  err_invalid_track: המסלול אינו ברשימה.
+  err_invalid_source: המקור אינו ברשימה.
+  err_invalid_date: תאריך ההגשה אינו תאריך תקין.
+  err_not_found: השורה כבר אינה קיימת (טענו את הדף מחדש).
+  excel: ייבוא וייצוא Excel
+  export: ייצוא ל־Excel
+  export_caption: אותם גיליונות, רשימות בחירה ונוסחאות כמו ב־Job_Search_Tracker.xlsx, בשפת הממשק הנוכחית.
+  export_btn: הורדת החוברת
+  import: ייבוא מ־Excel
+  import_caption: העלו את חוברת המעקב (בעברית או באנגלית). לפני שמירה יוצג סיכום.
+  upload: חוברת (.xlsx)
+  import_error: "הייבוא נכשל: {error}"
+  preview: "תצוגה מקדימה של הגיליון **{sheet}**:"
+  p_item: פריט
+  p_ready: שורות מוכנות לייבוא
+  p_duplicates: כפילויות שדולגו (אותו תאריך, חברה ותפקיד)
+  p_blank: שורות ריקות שדולגו
+  p_incomplete: שורות ללא חברה ותפקיד
+  p_invalid_dates: תאריכים לא תקינים (נשמרים כטקסט)
+  p_unmapped: ערכים שאינם ברשימות (נשמרים כטקסט)
+  p_extra_columns: עמודות נוספות (נשמרות)
+  p_details: "פירוט שורות ({n})"
+  p_row: שורה
+  p_kind: בעיה
+  p_field: שדה
+  kind_incomplete: ללא חברה או תפקיד
+  kind_duplicate: כפילות
+  kind_invalid_date: תאריך לא תקין
+  kind_unmapped: ערך שאינו ברשימה
+  include_incomplete: לייבא גם שורות ללא חברה ותפקיד
+  import_btn: "ייבוא {n} שורות"
+  imported: "יובאו {n} שורות."
+
+dashboard:
+  title: דשבורד
+  subtitle: חיפוש העבודה שלכם במבט אחד — מחושב מתוך מעקב ההגשות.
+  empty: אין עדיין הגשות. הוסיפו אותן במעקב ההגשות או ייבאו את חוברת ה־Excel.
+  open_tracker: פתיחת מעקב ההגשות
+  filter_dates: סינון לפי תאריך הגשה
+  date_range: טווח תאריכי הגשה
+  scope: "מוצגות {shown} מתוך {total} הגשות."
+  kpi_total: סה"כ משרות שהוגשו
+  kpi_active: תהליכים פעילים
+  kpi_interviews: ראיונות שנקבעו
+  kpi_assign: מטלות בית והצעות
+  by_status: התפלגות לפי סטטוס
+  by_track: התפלגות לפי מסלול
+  by_source: התפלגות לפי מקור משרה
+  weekly: הגשות לפי שבוע
+  week: שבוע
+  week_of: שבוע שמתחיל (יום שני)
+  funnel: משפך התהליך
+  stage: שלב
+  funnel_rule: "כל שלב סופר הגשות עם תאריך הגשה שהסטטוס הנוכחי שלהן נמצא בשלב זה או מתקדם ממנו. הגשות שנדחו או נסגרו נספרות רק כ״הוגש״, כי המעקב אינו שומר עד היכן הגיעו."
+  stale: "דורש מעקב (ללא עדכון {days} ימים ומעלה)"
+  stale_rule: "הגשות פעילות (מהגשה ועד מטלת בית) שהעדכון האחרון שלהן היה לפני {days} ימים או יותר. שורות שיובאו מתחילות מתאריך ההגשה."
+  no_stale: כל ההגשות הפעילות עודכנו ב־14 הימים האחרונים.
+  days_idle: ימים מאז העדכון

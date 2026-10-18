@@ -175,7 +175,7 @@ def test_real_model_multilingual_retrieval(app_url):
 
     ks = WorkspaceKnowledgeService(get_session_factory(app_url), "demo", kb_root=workspace_paths("demo").kb_root)
     status = ks.ingest()
-    assert status.search_backend == "vector" and status.embedded_chunks == status.total_chunks
+    assert status.search_backend == "vector" and status.embedded_chunks == status.total_chunks, (status, ks.last_ingest)
 
     he = ks.retrieve("מה הפערים שצריך לסגור בתכנות?", top_k=3)
     assert he.method == "vector"

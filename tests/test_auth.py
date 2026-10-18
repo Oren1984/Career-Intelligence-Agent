@@ -184,7 +184,7 @@ def test_login_binds_workspace_from_credentials(app_env):
 def test_authenticated_app_and_logout_clears_session(app_env):
     at = _signed_in("demo", "demo").run()
     assert not at.exception
-    assert at.title and at.title[0].value == "Decision Console"
+    assert at.title and at.title[0].value == "Dashboard"
     assert any("Developed and built by Oren - V2.0" in m.value for m in at.markdown)
     at.session_state["weekly_review"] = {"executive_summary": "private"}
     logout = next(b for b in at.sidebar.button if b.label == "Log out")

@@ -61,10 +61,8 @@ def seed_knowledge() -> str:
 
 
 def seed_tracker() -> int:
-    try:
-        from app.tracker.seed import seed_demo_applications  # noqa: PLC0415
-    except ImportError:
-        return 0
+    from app.tracker.seed import seed_demo_applications  # noqa: PLC0415
+
     return seed_demo_applications()
 
 

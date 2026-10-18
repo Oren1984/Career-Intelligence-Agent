@@ -2,7 +2,7 @@
 import pytest
 from streamlit.testing.v1 import AppTest
 
-VIEWS = ["decision_console", "classic_jobs", "analytics", "weekly_review", "profile",
+VIEWS = ["dashboard", "tracker", "decision_console", "classic_jobs", "analytics", "weekly_review", "profile",
          "analyze_job", "knowledge_base", "career_qa", "help_center"]
 
 
@@ -36,6 +36,17 @@ def seeded_db(tmp_path_factory):
         svc.run_collectors([MockCollector()])
         svc.score_all_unscored()
         svc.career_score_all_unscored()
+    import datetime as dt
+    from app.db.models import Application
+    from app.tracker import service as tracker
+    with session_scope("demo", url) as s:
+        today = tracker.local_today()
+        for i, status in enumerate(["submitted", "interview", "offer", "rejected", "screening"]):
+            tracker.create(s, {"company": f"Co {i}", "title": "Engineer", "status": status, "track": "devops_cloud",
+                               "source": "linkedin", "submitted_date": today - dt.timedelta(days=7 * i)})
+        s.flush()
+        stale = s.query(Application).filter_by(status="screening").one()
+        stale.last_update_at = stale.last_update_at - dt.timedelta(days=20)
     yield url
     dispose_engines()
     for k, v in old.items():

@@ -2,7 +2,7 @@
 
 The workspace always comes from the server-side authenticated session record
 (``st.session_state["auth"]``), never from query parameters or widgets.
-Every cached resource that holds workspace data is keyed by workspace.
+Every cached resource that holds workspace data is keyed by workspace (and database URL).
 """
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from typing import Any
 
 import streamlit as st
 
-from app.db.session import bind_workspace, check_db_ready, get_session_factory
+from app.db.session import bind_workspace, check_db_ready, database_url, get_session_factory
 from app.services.job_service import JobService
 from app.services.workspace_profile import candidate_profile_for, scoring_profile_for
 from dashboard.i18n import normalize_language, translate
@@ -57,10 +57,14 @@ def username() -> str:
 # ── Database ────────────────────────────────────────────────────────────────
 
 @st.cache_resource(show_spinner=False)
+def _session_factory(url: str):
+    check_db_ready(url)
+    return get_session_factory(url)
+
+
 def session_factory():
-    """Process-wide session factory (one connection pool); verifies the schema once."""
-    check_db_ready()
-    return get_session_factory()
+    """Process-wide session factory per DATABASE_URL (one connection pool); schema verified once."""
+    return _session_factory(database_url())
 
 
 def db():
@@ -84,8 +88,8 @@ def close_run_session() -> None:
 # ── Workspace-scoped services (cache keys include the workspace) ────────────
 
 @st.cache_resource(show_spinner=False, ttl=600)
-def _candidate_profile(ws: str):
-    session = bind_workspace(session_factory()(), ws)
+def _candidate_profile(ws: str, url: str):
+    session = bind_workspace(_session_factory(url)(), ws)
     try:
         return candidate_profile_for(session, ws)
     finally:
@@ -94,7 +98,7 @@ def _candidate_profile(ws: str):
 
 def candidate_profile():
     try:
-        return _candidate_profile(workspace())
+        return _candidate_profile(workspace(), database_url())
     except Exception as exc:
         logger.warning("Could not load candidate profile: %s", exc)
         return None
@@ -112,35 +116,35 @@ def classic_job_service() -> JobService:
 
 
 @st.cache_resource(show_spinner=False)
-def _knowledge_service(ws: str):
+def _knowledge_service(ws: str, url: str):
     from app.rag.workspace_knowledge import WorkspaceKnowledgeService  # noqa: PLC0415
-    return WorkspaceKnowledgeService(session_factory(), ws)
+    return WorkspaceKnowledgeService(_session_factory(url), ws)
 
 
 def knowledge_service():
-    return _knowledge_service(workspace())
+    return _knowledge_service(workspace(), database_url())
 
 
 @st.cache_resource(show_spinner=False, ttl=600)
-def _analyzer(ws: str):
+def _analyzer(ws: str, url: str):
     from app.services.rag_job_analysis import RAGJobAnalyzer  # noqa: PLC0415
-    profile = _candidate_profile(ws)
+    profile = _candidate_profile(ws, url)
     return RAGJobAnalyzer(profile=profile.to_dict() if profile else None,
-                          knowledge_service=_knowledge_service(ws))
+                          knowledge_service=_knowledge_service(ws, url))
 
 
 def analyzer():
-    return _analyzer(workspace())
+    return _analyzer(workspace(), database_url())
 
 
 @st.cache_resource(show_spinner=False)
-def _qa_service(ws: str):
+def _qa_service(ws: str, url: str):
     from app.rag.qa_service import CareerQAService  # noqa: PLC0415
-    return CareerQAService(knowledge_service=_knowledge_service(ws))
+    return CareerQAService(knowledge_service=_knowledge_service(ws, url))
 
 
 def qa_service():
-    return _qa_service(workspace())
+    return _qa_service(workspace(), database_url())
 
 
 def clear_profile_caches() -> None:

@@ -143,3 +143,30 @@ def test_workspace_stamped_on_score_rows_via_job_service(app_url):
         assert s.query(Score).one().workspace == "demo"
     with session_scope("personal", app_url) as s:
         assert s.query(Score).count() == 0
+
+
+def test_tracker_rows_and_exports_are_isolated(app_url):
+    import io
+    from openpyxl import load_workbook
+    from app.tracker import service
+    from app.tracker.excel import export_workbook
+
+    with session_scope("personal", app_url) as s:
+        personal_id = service.create(s, {"company": "Private Employer", "title": "Secret Role",
+                                         "status": "interview"})
+        s.flush()
+        personal_id = personal_id.id
+    with session_scope("demo", app_url) as s:
+        service.create(s, {"company": "Demo Co", "title": "Demo Role", "status": "submitted"})
+    with session_scope("demo", app_url) as s:
+        apps = service.list_applications(s)
+        assert [a.company for a in apps] == ["Demo Co"]
+        with pytest.raises(service.ValidationError):
+            service.update(s, personal_id, {"status": "offer"})
+        assert service.delete(s, [personal_id]) == 0
+        cells = [c.value for row in load_workbook(io.BytesIO(export_workbook(apps, "en"))).worksheets[0].iter_rows()
+                 for c in row]
+        assert "Private Employer" not in cells and "Demo Co" in cells
+        assert service.compute_stats(apps).total_submitted == 0
+    with session_scope("personal", app_url) as s:
+        assert service.list_applications(s)[0].status == "interview"

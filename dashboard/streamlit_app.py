@@ -22,14 +22,14 @@ from dashboard.ui.components import footer  # noqa: E402
 from dashboard.ui.context import AUTH_KEY, LANG_KEY, close_run_session, lang, t, username  # noqa: E402
 from dashboard.ui.theme import apply_theme  # noqa: E402
 from dashboard.views import (  # noqa: E402
-    analytics, analyze_job, career_qa, classic_jobs, decision_console, help_center,
-    knowledge_base, login, profile, weekly_review,
+    analytics, analyze_job, career_qa, classic_jobs, dashboard, decision_console, help_center,
+    knowledge_base, login, profile, tracker, weekly_review,
 )
 from dashboard.views.analyze_job import EXEC_MODES  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
-PAGE_PATHS = ("decision", "jobs", "analytics", "weekly-review", "analyze", "knowledge-base",
+PAGE_PATHS = ("dashboard", "tracker", "decision", "jobs", "analytics", "weekly-review", "analyze", "knowledge-base",
               "career-qa", "profile", "help")
 
 st.set_page_config(page_title="Career Intelligence Agent", page_icon="🎯", layout="wide")
@@ -38,7 +38,9 @@ st.session_state.setdefault(LANG_KEY, "en")
 
 def _pages() -> dict:
     pages = {
-        "decision": st.Page(decision_console.render, title=t("nav.decision"), icon="🎯", url_path="decision", default=True),
+        "dashboard": st.Page(dashboard.render, title=t("nav.dashboard"), icon="📈", url_path="dashboard", default=True),
+        "tracker": st.Page(tracker.render, title=t("nav.tracker"), icon="🗂️", url_path="tracker"),
+        "decision": st.Page(decision_console.render, title=t("nav.decision"), icon="🎯", url_path="decision"),
         "classic": st.Page(classic_jobs.render, title=t("nav.classic"), icon="📋", url_path="jobs"),
         "analytics": st.Page(analytics.render, title=t("nav.analytics"), icon="📊", url_path="analytics"),
         "review": st.Page(weekly_review.render, title=t("nav.review"), icon="🗓️", url_path="weekly-review"),
@@ -91,6 +93,7 @@ def main() -> None:
     apply_theme(lang())
     p = _pages()
     nav = st.navigation({
+        t("nav.group_tracking"): [p["dashboard"], p["tracker"]],
         t("nav.group_jobs"): [p["decision"], p["classic"], p["analytics"], p["review"]],
         t("nav.group_knowledge"): [p["analyze"], p["kb"], p["qa"], p["profile"]],
         t("nav.group_support"): [p["help"]],

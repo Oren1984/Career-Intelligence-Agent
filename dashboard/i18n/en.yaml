@@ -33,6 +33,7 @@ workspace:
 
 common:
   all: All
+  any: Any (no filter)
   help: Help
   details: Details
   save: Save
@@ -380,3 +381,88 @@ login:
   expired: Your session expired after a period of inactivity. Please sign in again.
   logged_out: You have been signed out.
   privacy: Single-owner application. All data stays on this machine.
+
+tracker:
+  title: Application Tracker
+  subtitle: Every job you applied for — edit directly, import from or export to Excel.
+  search_ph: Company, role, location or notes
+  count: "{shown} of {total} applications shown"
+  empty: No applications yet. Add a row in the table below or import your Excel workbook.
+  col_date: Submission date
+  col_company: Company
+  col_title: Job title
+  col_track: Track
+  col_source: Source
+  col_location: Location & work model
+  col_salary: Salary range
+  col_status: Status
+  col_days: Days since submission
+  col_notes: Notes, link & contact
+  col_closure: Closure reason / feedback
+  col_unmapped: Kept from import
+  unmapped_help: Values from an imported workbook that did not match the lists. Choose a list value to replace them.
+  col_last_update: Last update
+  not_set: Not set
+  save: Save changes
+  saved: "Saved: {added} added, {updated} updated, {deleted} deleted."
+  row_error: "Row {n}: {error}"
+  err_company_title_required: company and job title are required.
+  err_invalid_status: the status is not in the list.
+  err_invalid_track: the track is not in the list.
+  err_invalid_source: the source is not in the list.
+  err_invalid_date: the submission date is not a valid date.
+  err_not_found: the row no longer exists (reload the page).
+  excel: Excel import and export
+  export: Export to Excel
+  export_caption: Same sheets, dropdowns and formulas as Job_Search_Tracker.xlsx, in the current interface language.
+  export_btn: Download workbook
+  import: Import from Excel
+  import_caption: Upload the tracker workbook (Hebrew or English). You will see a summary before anything is saved.
+  upload: Workbook (.xlsx)
+  import_error: "Could not import: {error}"
+  preview: "Preview of sheet **{sheet}**:"
+  p_item: Item
+  p_ready: Rows ready to import
+  p_duplicates: Duplicates skipped (same date, company and role)
+  p_blank: Blank rows skipped
+  p_incomplete: Rows without company and role
+  p_invalid_dates: Invalid dates (kept as text)
+  p_unmapped: Values not in the lists (kept as text)
+  p_extra_columns: Extra columns (kept)
+  p_details: "Row details ({n})"
+  p_row: Row
+  p_kind: Issue
+  p_field: Field
+  kind_incomplete: No company or role
+  kind_duplicate: Duplicate
+  kind_invalid_date: Invalid date
+  kind_unmapped: Value not in list
+  include_incomplete: Also import rows without company and role
+  import_btn: "Import {n} rows"
+  imported: "{n} rows imported."
+
+dashboard:
+  title: Dashboard
+  subtitle: Your job search at a glance — calculated from the Application Tracker.
+  empty: No applications yet. Add them in the Application Tracker or import your Excel workbook.
+  open_tracker: Open the Application Tracker
+  filter_dates: Filter by submission date
+  date_range: Submission date range
+  scope: "Showing {shown} of {total} applications."
+  kpi_total: Total submitted
+  kpi_active: Active processes
+  kpi_interviews: Interviews scheduled
+  kpi_assign: Home assignments & offers
+  by_status: By status
+  by_track: By track
+  by_source: By source
+  weekly: Submissions per week
+  week: Week
+  week_of: Week starting (Monday)
+  funnel: Pipeline funnel
+  stage: Stage
+  funnel_rule: "Each stage counts applications with a submission date whose current status is at that stage or later. Rejected and closed applications count only as submitted, because the tracker does not record how far they got."
+  stale: "Needs follow-up (no update for {days}+ days)"
+  stale_rule: "Active applications (submitted to home assignment) whose last update was {days} or more days ago. Imported rows start from their submission date."
+  no_stale: Every active application was updated in the last 14 days.
+  days_idle: Days since update
