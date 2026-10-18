@@ -210,6 +210,7 @@ class CandidateProfile:
 def load_candidate_profile(
     profile_dir: str | Path | None = None,
     config_path: str | Path | None = None,
+    personal_overlay: dict[str, Any] | None = None,
 ) -> CandidateProfile:
     """
     Load the candidate profile from disk.
@@ -223,6 +224,10 @@ def load_candidate_profile(
 
     Personal profile fields take priority over profile.yaml when non-empty.
     Missing files are silently skipped; defaults are empty.
+
+    ``personal_overlay`` replaces step 2 with an overlay supplied by the caller
+    (V2.0 stores it per workspace in PostgreSQL); when omitted the local
+    data/personal_profile.json file is used as before.
     """
     profile = CandidateProfile()
 
@@ -259,8 +264,11 @@ def load_candidate_profile(
 
     # 2. Overlay from data/personal_profile.json (personal overrides)
     try:
-        from app.services.personal_profile_service import load_personal_profile
-        personal = load_personal_profile()
+        if personal_overlay is not None:
+            personal = personal_overlay
+        else:
+            from app.services.personal_profile_service import load_personal_profile
+            personal = load_personal_profile()
 
         # Personal identity (new fields)
         if personal.get("name"):

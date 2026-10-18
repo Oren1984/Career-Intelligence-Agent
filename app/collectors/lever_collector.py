@@ -115,12 +115,12 @@ class LeverCollector(BaseCollector):
         created_ms = posting.get("createdAt", 0)
         try:
             date_found = (
-                datetime.fromtimestamp(created_ms / 1000, tz=timezone.utc).replace(tzinfo=None)
+                datetime.fromtimestamp(created_ms / 1000, tz=timezone.utc)
                 if created_ms
-                else datetime.now(timezone.utc).replace(tzinfo=None)
+                else datetime.now(timezone.utc)
             )
         except Exception:
-            date_found = datetime.now(timezone.utc).replace(tzinfo=None)
+            date_found = datetime.now(timezone.utc)
 
         return RawJob(
             title=title,

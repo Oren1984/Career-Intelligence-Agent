@@ -23,7 +23,7 @@ Note: Comments are plain-text job ads posted by companies/individuals. The forma
 """
 import logging
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 try:
@@ -169,9 +169,9 @@ class HackerNewsHiringCollector(BaseCollector):
         # Date
         created_at = hit.get("created_at", "")
         try:
-            date_found = datetime.fromisoformat(created_at.replace("Z", "+00:00")) if created_at else datetime.utcnow()
+            date_found = datetime.fromisoformat(created_at.replace("Z", "+00:00")) if created_at else datetime.now(timezone.utc)
         except Exception:
-            date_found = datetime.utcnow()
+            date_found = datetime.now(timezone.utc)
 
         return RawJob(
             title=title,

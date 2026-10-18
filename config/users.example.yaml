@@ -1,0 +1,12 @@
+# config/users.example.yaml — format of the local credentials file (config/users.yaml).
+#
+# Do not edit password hashes by hand. Create or update logins with:
+#   python scripts/create_user.py <username> --workspace personal|demo
+# config/users.yaml is git-ignored, excluded from Docker builds and mounted read-only at runtime.
+
+session_timeout_minutes: 60      # inactivity timeout; SESSION_TIMEOUT_MINUTES overrides it
+
+users:
+  example:
+    workspace: personal          # personal (owner data) or demo (synthetic sample data)
+    password_hash: "$2b$12$replace.with.a.hash.generated.by.create_user.py"

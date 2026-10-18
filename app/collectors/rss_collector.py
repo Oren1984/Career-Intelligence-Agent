@@ -4,7 +4,7 @@
 """RSS-based job collector. Fetches jobs from RSS/Atom job feeds."""
 import logging
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 try:
@@ -57,10 +57,10 @@ def _parse_date(entry: Any) -> datetime:
         val = getattr(entry, attr, None)
         if val:
             try:
-                return datetime(*val[:6])
+                return datetime(*val[:6], tzinfo=timezone.utc)  # feedparser *_parsed values are UTC
             except Exception:
                 pass
-    return datetime.utcnow()
+    return datetime.now(timezone.utc)
 
 
 def _extract_company(entry: Any) -> str:

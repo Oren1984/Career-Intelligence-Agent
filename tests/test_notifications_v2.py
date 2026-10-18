@@ -1,6 +1,5 @@
 # tests/test_notifications_v2.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for the new notification layer (BaseNotifier, ConsoleNotifier, FileNotifier, Orchestrator)."""
 import pytest
 from typing import Any

@@ -1,6 +1,5 @@
 # tests/test_database.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for database persistence and integrity."""
 from app.db.models import Job, Score, StatusHistory
 from app.collectors.base import RawJob
@@ -151,3 +150,49 @@ class TestJobService:
         assert stats["inserted"] > 0
         assert "skipped" in stats
         assert "collected" in stats
+
+
+class TestSessionLayer:
+    """V2.0 session layer: cached engine/factory, workspace binding."""
+
+    def test_factory_on_fresh_url_does_not_deadlock_and_is_cached(self, tmp_path):
+        import threading
+        from app.db.session import dispose_engines, get_engine, get_session_factory
+
+        url = f"sqlite:///{tmp_path / 'fresh.db'}"
+        result = {}
+        t = threading.Thread(target=lambda: result.setdefault("f", get_session_factory(url)), daemon=True)
+        t.start()
+        t.join(timeout=10)
+        assert not t.is_alive(), "get_session_factory deadlocked on a fresh URL"
+        assert get_session_factory(url) is result["f"]
+        assert result["f"].kw["bind"] is get_engine(url)
+        dispose_engines()
+
+    def test_bound_session_stamps_workspace(self, tmp_path):
+        from app.db.models import Job
+        from app.db.session import check_db_ready, dispose_engines, session_scope
+
+        url = f"sqlite:///{tmp_path / 'ws.db'}"
+        check_db_ready(url)
+        with session_scope("demo", url) as s:
+            s.add(Job(title="t", unique_hash="h" * 64, workspace="personal"))
+        with session_scope("demo", url) as s:
+            assert s.query(Job).one().workspace == "demo"
+        dispose_engines()
+
+    def test_unknown_workspace_rejected(self):
+        import pytest
+        from app.db.session import bind_workspace
+        from app.workspace import WorkspaceError
+
+        with pytest.raises(WorkspaceError):
+            bind_workspace(object.__new__(type("S", (), {"info": {}})), "admin'; --")
+
+    def test_missing_database_url_is_explicit(self, monkeypatch):
+        import pytest
+        from app.db.session import DatabaseNotConfigured, database_url
+
+        monkeypatch.delenv("DATABASE_URL", raising=False)
+        with pytest.raises(DatabaseNotConfigured):
+            database_url()

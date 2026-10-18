@@ -1,6 +1,5 @@
 # matching/embedding_scorer.py
-# This file is part of the OpenLLM project
-
+# Part of the Career Intelligence Agent project.
 """
 Embedding-based semantic scorer using sentence-transformers.
 

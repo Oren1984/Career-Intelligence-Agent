@@ -59,6 +59,8 @@ class RetrievalResult:
     chunks: list[RetrievedChunk] = field(default_factory=list)
     total_retrieved: int = 0
     kb_size: int = 0               # Total chunks in index
+    method: str = "tfidf"          # "vector" (pgvector) or "tfidf"
+    fallback_reason: str = ""      # why vector search was not used, if it was attempted
 
     def has_evidence(self) -> bool:
         return bool(self.chunks)

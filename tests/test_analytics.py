@@ -1,6 +1,5 @@
 # tests/test_analytics.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for V2 analytics — source analytics and improved service stats."""
 from app.db.models import Score
 from app.db.normalizer import insert_jobs_dedup

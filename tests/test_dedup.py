@@ -1,6 +1,5 @@
 # tests/test_dedup.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for deduplication logic."""
 from app.collectors.base import RawJob
 from app.db.normalizer import compute_hash, insert_jobs_dedup, raw_to_job

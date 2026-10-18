@@ -1,0 +1,3 @@
+Dana Demo is a fictional platform engineer with four years of experience running Kubernetes,
+Terraform and CI/CD pipelines on AWS. Focused on reliable infrastructure, observability and
+developer experience. Looking for hybrid DevOps or platform roles in Israel.

@@ -1,6 +1,5 @@
 # llm/providers/ollama_provider.py
-# This file is part of the OpenLLM project
-
+# Part of the Career Intelligence Agent project.
 """Ollama local LLM provider (placeholder for self-hosted models)."""
 import os
 import logging

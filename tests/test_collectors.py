@@ -1,6 +1,5 @@
 # tests/test_collectors.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for job collectors."""
 from app.collectors.mock_collector import MockCollector
 from app.collectors.base import RawJob

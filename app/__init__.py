@@ -1,2 +1,2 @@
 # app/__init__.py
-# This file is part of the OpenLLM project issue tracker:
+# Part of the Career Intelligence Agent project.

@@ -1,6 +1,5 @@
 # llm/provider_factory.py
-# This file is part of the OpenLLM project
-
+# Part of the Career Intelligence Agent project.
 """LLM provider factory — loads the configured provider with graceful fallback to mock."""
 import os
 import logging

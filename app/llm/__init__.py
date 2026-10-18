@@ -1,2 +1,2 @@
 # llm/__init__.py
-# This file is part of the OpenLLM project
+# Part of the Career Intelligence Agent project.

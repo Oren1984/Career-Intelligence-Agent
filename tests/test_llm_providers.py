@@ -1,6 +1,5 @@
 # tests/test_llm_providers.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for V2 LLM provider layer — loading, fallback, and mock behavior."""
 import os
 from unittest.mock import patch

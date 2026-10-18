@@ -1,6 +1,5 @@
 # scripts/fetch_jobs.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Fetch jobs from configured collectors and persist to DB.
 
 Usage:
@@ -19,7 +18,9 @@ import logging  # noqa: E402
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
-from app.db.session import init_db, get_session  # noqa: E402
+from app.db.session import check_db_ready, get_session  # noqa: E402
+from app.services.workspace_profile import scoring_profile_for  # noqa: E402
+from app.workspace import validate_workspace, workspace_from_env  # noqa: E402
 from app.services.job_service import JobService  # noqa: E402
 
 _VALID_MODES = ("mock", "rss", "israel", "all")
@@ -87,6 +88,8 @@ Examples:
         help="Source mode to use (default: all)",
     )
     # Legacy flags kept for backward compatibility
+    parser.add_argument("--workspace", default=None,
+                        help="Workspace to store jobs in: personal | demo (default: $WORKSPACE or personal)")
     parser.add_argument("--mock", action="store_true", default=False,
                         help="[legacy] Alias for --mode mock")
     parser.add_argument("--rss", action="store_true", default=False,
@@ -110,8 +113,10 @@ Examples:
     logger.info("Mode: %s", args.mode.upper())
     logger.info("=" * 60)
 
-    init_db()
-    session = get_session()
+    workspace = validate_workspace(args.workspace) if args.workspace else workspace_from_env()
+    logger.info("Workspace: %s", workspace)
+    check_db_ready()
+    session = get_session(workspace=workspace)
 
     try:
         collectors = build_collectors(args.mode)
@@ -122,7 +127,7 @@ Examples:
 
         logger.info("[fetch] Running %d collector(s)...", len(collectors))
 
-        service = JobService(session)
+        service = JobService(session, profile=scoring_profile_for(workspace))
         stats = service.run_collectors(collectors)
 
         print()

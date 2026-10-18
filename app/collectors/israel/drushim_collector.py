@@ -116,7 +116,7 @@ class DrushimCollector(BaseIsraeliCollector):
     def normalize_job(self, raw: dict[str, Any]) -> RawJob:
         """Convert a Drushim raw dict to a RawJob."""
         days_ago = raw.get("days_ago", 0)
-        date_found = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(days=days_ago)
+        date_found = datetime.now(timezone.utc) - timedelta(days=days_ago)
 
         city = raw.get("city", "")
         location = f"{city}, Israel" if city and city.lower() != "remote" else city

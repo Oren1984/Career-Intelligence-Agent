@@ -2,20 +2,42 @@
 # this file defines the SQLAlchemy ORM models for the database tables:
 # Job, Score, StatusHistory, CareerScore, JobFeedback
 
-"""SQLAlchemy ORM models for the Career Decision Agent database."""
-import datetime
+"""SQLAlchemy ORM models for the Career Decision Agent database.
+
+Every table is account-owned and carries a ``workspace`` column. On PostgreSQL,
+row-level security restricts each transaction to the workspace bound to its
+session (see app/db/session.py and app/db/migrations.py).
+"""
 import json
-from sqlalchemy import Column, Integer, String, Float, Text, DateTime, ForeignKey, Boolean
+from sqlalchemy import (
+    JSON, Column, Date, Integer, String, Float, Text, DateTime, ForeignKey, UniqueConstraint,
+)
 from sqlalchemy.orm import DeclarativeBase, relationship
+from pgvector.sqlalchemy import Vector
+
+from app.rag.model_spec import EMBEDDING_DIM
+from app.timeutil import utcnow
+from app.workspace import DEFAULT_WORKSPACE
 
 
 class Base(DeclarativeBase):
     pass
 
 
+class WorkspaceMixin:
+    """Adds the workspace column used by row-level security.
+
+    The session layer stamps new rows with the session's bound workspace; the
+    default only applies to unbound sessions (unit tests on SQLite). On
+    PostgreSQL an unbound session can neither read nor write any row.
+    """
+    workspace = Column(String(32), nullable=False, default=DEFAULT_WORKSPACE, index=True)
+
+
 # Note: We use a single "jobs" table to store all collected jobs, regardless of source.
-class Job(Base):
+class Job(WorkspaceMixin, Base):
     __tablename__ = "jobs"
+    __table_args__ = (UniqueConstraint("workspace", "unique_hash", name="uq_jobs_workspace_hash"),)
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(255), nullable=False)
@@ -25,8 +47,8 @@ class Job(Base):
     url = Column(String(512), default="")
     description = Column(Text, default="")
     raw_text = Column(Text, default="")
-    date_found = Column(DateTime, default=datetime.datetime.utcnow)
-    unique_hash = Column(String(64), unique=True, nullable=False)
+    date_found = Column(DateTime(timezone=True), default=utcnow)
+    unique_hash = Column(String(64), nullable=False, index=True)
     status = Column(String(50), default="new")
 
     scores = relationship("Score", back_populates="job", cascade="all, delete-orphan")
@@ -49,7 +71,7 @@ class Job(Base):
         }
 
 
-class Score(Base):
+class Score(WorkspaceMixin, Base):
     __tablename__ = "scores"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -60,7 +82,7 @@ class Score(Base):
     missing_keywords = Column(Text, default="[]")   # JSON list
     rejection_flags = Column(Text, default="[]")    # JSON list
     explanation = Column(Text, default="")
-    scored_at = Column(DateTime, default=datetime.datetime.utcnow)
+    scored_at = Column(DateTime(timezone=True), default=utcnow)
 
     # V2 fields — nullable for backward compatibility with existing rows
     keyword_score = Column(Float, nullable=True)     # raw keyword score (before semantic boost)
@@ -108,14 +130,14 @@ class Score(Base):
         }
 
 
-class StatusHistory(Base):
+class StatusHistory(WorkspaceMixin, Base):
     __tablename__ = "status_history"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     job_id = Column(Integer, ForeignKey("jobs.id"), nullable=False)
     old_status = Column(String(50), default="")
     new_status = Column(String(50), default="")
-    changed_at = Column(DateTime, default=datetime.datetime.utcnow)
+    changed_at = Column(DateTime(timezone=True), default=utcnow)
     note = Column(Text, default="")
 
     job = relationship("Job", back_populates="status_history")
@@ -131,7 +153,7 @@ class StatusHistory(Base):
         }
 
 
-class CareerScore(Base):
+class CareerScore(WorkspaceMixin, Base):
     """
     V2 Career Decision Score — multi-factor scoring with recommendation labels,
     gap analysis, action items, and career direction alignment.
@@ -142,7 +164,7 @@ class CareerScore(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     job_id = Column(Integer, ForeignKey("jobs.id"), nullable=False)
-    scored_at = Column(DateTime, default=datetime.datetime.utcnow)
+    scored_at = Column(DateTime(timezone=True), default=utcnow)
 
     # Overall result
     overall_fit_score = Column(Float, default=0.0)          # 0–100
@@ -228,7 +250,7 @@ class CareerScore(Base):
         }
 
 
-class JobFeedback(Base):
+class JobFeedback(WorkspaceMixin, Base):
     """
     Lightweight user feedback on job matches.
 
@@ -242,7 +264,7 @@ class JobFeedback(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     job_id = Column(Integer, ForeignKey("jobs.id"), nullable=False)
     feedback_signal = Column(String(50), nullable=False)    # see VALID_FEEDBACK_SIGNALS
-    recorded_at = Column(DateTime, default=datetime.datetime.utcnow)
+    recorded_at = Column(DateTime(timezone=True), default=utcnow)
     note = Column(Text, default="")
 
     job = relationship("Job", back_populates="feedback")
@@ -266,3 +288,86 @@ VALID_FEEDBACK_SIGNALS = {
     "good_fit",
     "wrong_direction",
 }
+
+
+# ── V2.0 tables ───────────────────────────────────────────────────────────────
+
+class KnowledgeChunk(WorkspaceMixin, Base):
+    """One retrievable chunk of a knowledge-base document, with its embedding.
+
+    ``doc_hash`` (SHA-256 of the source text) makes re-ingestion idempotent:
+    unchanged documents are skipped, changed documents have their chunks
+    replaced, and documents removed from disk have their chunks deleted.
+    ``embedding_model`` records which model produced ``embedding`` so that a
+    model change triggers re-embedding instead of mixing vector spaces.
+    """
+    __tablename__ = "knowledge_chunks"
+    __table_args__ = (UniqueConstraint("workspace", "chunk_id", name="uq_knowledge_chunks_workspace_chunk"),)
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    chunk_id = Column(String(600), nullable=False)        # "{doc_id}::chunk{index}"
+    doc_id = Column(String(512), nullable=False, index=True)  # path relative to the workspace KB root
+    file_name = Column(String(255), default="")
+    category = Column(String(100), default="general")
+    chunk_index = Column(Integer, nullable=False, default=0)
+    text = Column(Text, nullable=False)
+    chunk_metadata = Column(JSON, default=dict)
+    doc_hash = Column(String(64), nullable=False)
+    embedding = Column(Vector(EMBEDDING_DIM), nullable=True)
+    embedding_model = Column(String(160), nullable=True)
+    created_at = Column(DateTime(timezone=True), default=utcnow)
+
+
+class Application(WorkspaceMixin, Base):
+    """A job application tracked by the user (mirrors Job_Search_Tracker.xlsx).
+
+    Controlled values (status / track / source) are stored as language-neutral
+    codes defined in app/tracker/vocab.py. Values that do not map to a code are
+    kept verbatim in ``extra["unmapped"]`` and unknown workbook columns in
+    ``extra["columns"]``, so imports never silently drop data.
+    """
+    __tablename__ = "applications"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    row_uid = Column(String(36), nullable=False, unique=True)   # stable identifier (UUID4)
+    source_ref = Column(String(64), nullable=True)               # original workbook ID, if any
+    submitted_date = Column(Date, nullable=True)
+    company = Column(String(255), default="")
+    title = Column(String(255), default="")
+    track = Column(String(40), nullable=True)
+    source = Column(String(40), nullable=True)
+    location = Column(String(255), default="")
+    salary_range = Column(String(120), default="")
+    status = Column(String(40), nullable=True)
+    notes = Column(Text, default="")
+    closure_reason = Column(Text, default="")
+    extra = Column(JSON, default=dict)
+    last_update_at = Column(DateTime(timezone=True), default=utcnow)  # drives the 14-day stale rule
+    created_at = Column(DateTime(timezone=True), default=utcnow)
+    updated_at = Column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)
+
+
+class UserPreference(WorkspaceMixin, Base):
+    """Per-account UI preferences (currently the interface language)."""
+    __tablename__ = "user_preferences"
+
+    username = Column(String(64), primary_key=True)
+    language = Column(String(8), nullable=False, default="en")
+    updated_at = Column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)
+
+
+class ProfileOverride(WorkspaceMixin, Base):
+    """Personal profile overlay (V1 data/personal_profile.json), one row per workspace."""
+    __tablename__ = "profile_overrides"
+    __table_args__ = (UniqueConstraint("workspace", name="uq_profile_overrides_workspace"),)
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    data = Column(JSON, nullable=False, default=dict)
+    updated_at = Column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)
+
+
+# Tables protected by row-level security (all application tables).
+WORKSPACE_TABLES = (
+    "jobs", "scores", "status_history", "career_scores", "job_feedback",
+    "knowledge_chunks", "applications", "user_preferences", "profile_overrides",
+)

@@ -1,6 +1,5 @@
 # tests/test_source_loader.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Tests for source configuration loading and collector instantiation."""
 import os
 import pytest

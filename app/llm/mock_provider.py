@@ -1,6 +1,5 @@
 # llm/mock_provider.py
-# This file is part of the OpenLLM project
-
+# Part of the Career Intelligence Agent project.
 """Mock LLM provider — returns rule-based analysis without any API calls."""
 import logging
 from app.llm.base import BaseLLMProvider

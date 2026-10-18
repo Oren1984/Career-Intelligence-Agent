@@ -1,0 +1,50 @@
+# .dockerignore — keep secrets, personal data and local artifacts out of the build context.
+
+# Personal V2 work plan (local only)
+V2_WORK_PLAN.md
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+config/users.yaml
+
+# Version control and tooling
+.git
+.gitignore
+.github
+.claude
+CLAUDE.md
+.vscode
+.idea
+
+# Python / local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+
+# Personal data, databases, indexes, exports, backups, logs, model caches
+data/*
+!data/.gitkeep
+!data/candidate_profile/
+backups/
+exports/
+*.db
+*.sqlite
+*.dump
+*.log
+logs/
+
+# Personal documents (mounted at runtime instead)
+knowledge_base/*
+!knowledge_base/.gitkeep
+docs/
+*.xlsx
+
+# Tests are not needed in the runtime image
+tests/

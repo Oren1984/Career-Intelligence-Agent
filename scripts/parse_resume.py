@@ -1,6 +1,5 @@
 # scripts/parse_resume.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """
 Resume parser — extract candidate information from a PDF resume and
 update the candidate profile files automatically.

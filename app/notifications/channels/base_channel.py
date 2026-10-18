@@ -1,6 +1,5 @@
 # notifications/channels/base_channel.py
-# This file is part of the OpenLLM project
-
+# Part of the Career Intelligence Agent project.
 """Abstract base class for all notification channels."""
 from abc import ABC, abstractmethod
 from typing import Any

@@ -1,6 +1,5 @@
 # scripts/run_v1_demo.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """V1 Demo Entrypoint — initialize DB, fetch Israeli source jobs, score, and report.
 
 Usage:
@@ -17,23 +16,17 @@ logger = logging.getLogger(__name__)
 
 def step_init_db():
     """Initialize (or reset) the database."""
-    from app.db.session import get_engine
-    from app.db.models import Base
+    from app.db.session import check_db_ready
 
-    print("[1/3] Initializing database...")
-    engine = get_engine()
-    Base.metadata.create_all(engine)
-
-    # Apply V2 column migrations (idempotent)
-    from scripts.init_db import apply_v2_migrations
-    apply_v2_migrations(engine)
-
+    print("[1/3] Checking database...")
+    check_db_ready()
     print("      Database ready.")
 
 
 def step_fetch_israel():
     """Fetch jobs from Israeli sources (drushim + alljobs, currently mock-safe)."""
     from app.db.session import get_session
+    from app.workspace import workspace_from_env
     from app.services.job_service import JobService
     from app.collectors.source_loader import load_collectors
 
@@ -47,7 +40,7 @@ def step_fetch_israel():
         from app.collectors.mock_collector import MockCollector
         collectors = [MockCollector()]
 
-    session = get_session()
+    session = get_session(workspace=workspace_from_env())
     try:
         service = JobService(session)
         stats = service.run_collectors(collectors)
@@ -62,10 +55,11 @@ def step_fetch_israel():
 def step_score():
     """Score all unscored jobs against the candidate profile."""
     from app.db.session import get_session
+    from app.workspace import workspace_from_env
     from app.services.job_service import JobService
 
     print("[3/3] Scoring jobs...")
-    session = get_session()
+    session = get_session(workspace=workspace_from_env())
     try:
         service = JobService(session)
         count = service.score_all_unscored()

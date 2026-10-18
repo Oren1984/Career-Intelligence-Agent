@@ -1,6 +1,5 @@
 # tests/test_dashboard.py
-# This file is part of the OpenLLM project issue tracker:
-
+# Part of the Career Intelligence Agent project.
 """Sanity tests for dashboard module import and key function availability."""
 
 

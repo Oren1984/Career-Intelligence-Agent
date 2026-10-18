@@ -1,6 +1,5 @@
 # notifications/channels/email_channel.py
-# This file is part of the OpenLLM project
-
+# Part of the Career Intelligence Agent project.
 """Email notification channel via SMTP."""
 import logging
 import smtplib

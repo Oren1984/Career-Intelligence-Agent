@@ -1,14 +1,78 @@
-# docker-compose.yml
-# This file is part of the OpenLLM project issue tracker:
+# docker-compose.yml — Career Intelligence Agent V2.0
+#
+#   db       PostgreSQL 16 + pgvector (persistent named volume, health-checked)
+#   migrate  one-shot: schema migrations, row-level security, application role
+#   app      Streamlit dashboard (least-privilege DB role; starts after migrate succeeds)
+#   tools    optional helper for setup commands (create_user, seed_demo); `--profile tools`
+#
+# Secrets come from .env (copy .env.example). Credentials for the dashboard
+# login live in config/users.yaml, bind-mounted read-only at runtime and never
+# baked into the image.
 
-# Define the services that make up your application
+x-app-image: &app-image
+  build: .
+  image: career-intelligence-agent:2.0
+
 services:
-  career-agent:
-    build: .
-    ports:
-      - "8508:8508"
-    volumes:
-      - ./data:/app/data
+  db:
+    image: pgvector/pgvector:pg16
     environment:
-      - DATABASE_URL=sqlite:////app/data/jobs.db
+      POSTGRES_USER: ${POSTGRES_USER:-career_owner}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-career}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:${DB_HOST_PORT:-5433}:5432"   # local tools only; not exposed beyond this machine
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 20
     restart: unless-stopped
+
+  migrate:
+    <<: *app-image
+    command: ["python", "scripts/init_db.py"]
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-career_owner}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-career}
+      APP_DB_USER: ${APP_DB_USER:-career_app}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:?Set APP_DB_PASSWORD in .env}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  app:
+    <<: *app-image
+    environment:
+      DATABASE_URL: postgresql+psycopg://${APP_DB_USER:-career_app}:${APP_DB_PASSWORD}@db:5432/${POSTGRES_DB:-career}
+      SESSION_TIMEOUT_MINUTES: ${SESSION_TIMEOUT_MINUTES:-60}
+    ports:
+      - "${APP_HOST_PORT:-8086}:8508"            # app on http://localhost:8086 (container port 8508)
+    volumes:
+      - ./config:/app/config:ro                    # includes users.yaml (credentials, read-only)
+      - ./knowledge_base:/app/knowledge_base:ro    # personal knowledge-base documents
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  tools:
+    <<: *app-image
+    profiles: ["tools"]
+    entrypoint: ["python"]
+    command: ["scripts/create_user.py", "--help"]
+    environment:
+      DATABASE_URL: postgresql+psycopg://${APP_DB_USER:-career_app}:${APP_DB_PASSWORD}@db:5432/${POSTGRES_DB:-career}
+    volumes:
+      - ./config:/app/config                       # writable: create_user.py writes users.yaml
+      - ./knowledge_base:/app/knowledge_base:ro
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

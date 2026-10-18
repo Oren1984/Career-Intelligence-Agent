@@ -1,6 +1,5 @@
 # llm/base.py
-# This file is part of the OpenLLM project
-
+# Part of the Career Intelligence Agent project.
 """Abstract LLM provider interface — future-ready for V2 integration."""
 from abc import ABC, abstractmethod
 

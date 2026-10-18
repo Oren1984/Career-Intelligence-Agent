@@ -1,0 +1,16 @@
+# Synthetic job applications for the demo workspace (fictional companies).
+# days_ago / updated_days_ago are relative to the day the seed runs.
+applications:
+  - {ref: demo-01, days_ago: 52, company: Example Cloud Ltd, title: Platform Engineer, track: devops_cloud, source: linkedin, location: Tel Aviv · hybrid, salary: "28-32K", status: offer, updated_days_ago: 3, notes: Offer call scheduled.}
+  - {ref: demo-02, days_ago: 47, company: Sample Retail Tech, title: DevOps Engineer, track: devops_cloud, source: drushim, location: Herzliya · hybrid, salary: "25-30K", status: rejected, updated_days_ago: 20, closure: Position filled internally.}
+  - {ref: demo-03, days_ago: 41, company: Placeholder Analytics, title: MLOps Engineer, track: ai_rag, source: referral, location: Remote, salary: "30-35K", status: home_assignment, updated_days_ago: 4, notes: Take-home due Friday.}
+  - {ref: demo-04, days_ago: 38, company: Mock Fintech, title: Site Reliability Engineer, track: devops_cloud, source: alljobs, location: Ramat Gan · onsite, salary: "", status: closed_no_response, updated_days_ago: 30}
+  - {ref: demo-05, days_ago: 33, company: Fictional Health AI, title: AI Platform Engineer, track: ai_rag, source: company_site, location: Haifa · hybrid, salary: "27-31K", status: interview, updated_days_ago: 2, notes: Second technical round.}
+  - {ref: demo-06, days_ago: 29, company: Demo Logistics, title: Cloud Infrastructure Engineer, track: devops_cloud, source: jobmaster, location: Petah Tikva · hybrid, salary: "24-28K", status: screening, updated_days_ago: 21, notes: No answer since screening call.}
+  - {ref: demo-07, days_ago: 24, company: Sample Security, title: QA Automation Engineer, track: qa_automation, source: gotfriends, location: Tel Aviv · onsite, salary: "20-24K", status: rejected, updated_days_ago: 10, closure: Looking for more Selenium experience.}
+  - {ref: demo-08, days_ago: 20, company: Example Media, title: Kubernetes Engineer, track: devops_cloud, source: linkedin, location: Remote, salary: "", status: initial_call, updated_days_ago: 16}
+  - {ref: demo-09, days_ago: 15, company: Mock Robotics, title: Technical Project Manager, track: tech_pm, source: xplace, location: Rehovot · hybrid, salary: "22-26K", status: submitted, updated_days_ago: 15}
+  - {ref: demo-10, days_ago: 11, company: Placeholder Games, title: Backend Developer, track: software_other, source: facebook, location: Tel Aviv · hybrid, salary: "", status: submitted, updated_days_ago: 11}
+  - {ref: demo-11, days_ago: 8, company: Fictional Energy, title: DevOps Team Lead, track: devops_cloud, source: jobnet, location: Jerusalem · hybrid, salary: "32-38K", status: initial_call, updated_days_ago: 1, notes: Recruiter call booked.}
+  - {ref: demo-12, days_ago: 5, company: Example AI Labs, title: RAG Engineer, track: ai_rag, source: meta_ai, location: Remote, salary: "", status: submitted, updated_days_ago: 5}
+  - {ref: demo-13, days_ago: 2, company: Sample Insurance Tech, title: Platform Engineer, track: devops_cloud, source: linkedin, location: Tel Aviv · hybrid, salary: "26-30K", status: submitted, updated_days_ago: 2}

@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Self-Service Kubernetes Platform",
+    "description": "Fictional project: built a self-service platform on EKS with Terraform modules, Helm charts and ArgoCD so product teams could deploy services without tickets.",
+    "technologies": ["Kubernetes", "Terraform", "Helm", "ArgoCD", "AWS"]
+  },
+  {
+    "name": "Observability Stack Migration",
+    "description": "Fictional project: migrated logs and metrics to Prometheus, Grafana and Loki, cutting alert noise by half with SLO-based alerting.",
+    "technologies": ["Prometheus", "Grafana", "Loki", "Kubernetes"]
+  },
+  {
+    "name": "ML Model Delivery Pipeline",
+    "description": "Fictional project: CI/CD pipeline that tests, versions and deploys ML models with MLflow and GitHub Actions to a Kubernetes serving layer.",
+    "technologies": ["Python", "MLflow", "GitHub Actions", "Docker", "Kubernetes"]
+  }
+]

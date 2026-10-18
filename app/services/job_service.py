@@ -1,6 +1,5 @@
 # services/job_service.py
-# This file is part of the OpenLLM project
-
+# Part of the Career Intelligence Agent project.
 """Orchestration layer — ties collectors, normalization, filtering, and scoring together."""
 import json
 import logging
