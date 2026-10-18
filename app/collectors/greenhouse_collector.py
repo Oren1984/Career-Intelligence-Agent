@@ -104,10 +104,10 @@ class GreenhouseCollector(BaseCollector):
             date_found = (
                 datetime.fromisoformat(updated.replace("Z", "+00:00"))
                 if updated
-                else datetime.now(timezone.utc).replace(tzinfo=None)
+                else datetime.now(timezone.utc)
             )
         except Exception:
-            date_found = datetime.now(timezone.utc).replace(tzinfo=None)
+            date_found = datetime.now(timezone.utc)
 
         return RawJob(
             title=title,

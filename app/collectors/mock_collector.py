@@ -4,7 +4,7 @@
 
 """Mock collector that generates realistic demo job data for testing and demos."""
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from app.collectors.base import BaseCollector, RawJob
 
 logger = logging.getLogger(__name__)
@@ -201,7 +201,7 @@ class MockCollector(BaseCollector):
     def collect(self) -> list[RawJob]:
         jobs = []
         for item in _MOCK_JOBS:
-            date_found = datetime.utcnow() - timedelta(days=item.get("days_ago", 0))
+            date_found = datetime.now(timezone.utc) - timedelta(days=item.get("days_ago", 0))
             raw = RawJob(
                 title=item["title"],
                 company=item["company"],

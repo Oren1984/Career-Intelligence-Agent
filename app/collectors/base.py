@@ -5,7 +5,7 @@
 """Abstract base class for all job collectors."""
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 # Note: RawJob is a simple data structure to hold the raw information about
@@ -20,7 +20,7 @@ class RawJob:
     url: str
     source: str
     raw_text: str = ""
-    date_found: datetime = field(default_factory=datetime.utcnow)
+    date_found: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
 # BaseCollector defines the interface that all specific job collectors must implement.

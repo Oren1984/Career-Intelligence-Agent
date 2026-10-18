@@ -4,7 +4,7 @@
 
 """Data models for Gmail integration — FUTURE / NOT ACTIVATED."""
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 
@@ -17,7 +17,7 @@ class GmailMessage:
     from_address: str = ""
     html_body: str = ""
     metadata: dict[str, Any] = field(default_factory=dict)
-    created_at: datetime = field(default_factory=datetime.utcnow)
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
 @dataclass
@@ -26,4 +26,4 @@ class GmailSendResult:
     success: bool
     message_id: str = ""
     error: str = ""
-    sent_at: datetime = field(default_factory=datetime.utcnow)
+    sent_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
