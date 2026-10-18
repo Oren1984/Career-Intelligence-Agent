@@ -9,7 +9,7 @@ import streamlit as st
 from dashboard.ui.context import t
 
 APP_VERSION = "2.0"
-FOOTER_TEXT = "Developed and built by Oren - V2.0"   # shown verbatim on every page and the login screen
+FOOTER_TEXT = "Developed and built by Oren Salami - V2.0"   # shown verbatim on every page and the login screen
 
 LABEL_COLORS = {
     "Apply Now": "#1a7f37",

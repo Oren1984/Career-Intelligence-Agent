@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 import yaml
 
+from dashboard.ui.components import FOOTER_TEXT
 from app.auth import (
     AuthError, LoginThrottle, authenticate, hash_password, load_users, session_timeout_minutes,
     upsert_user, verify_password,
@@ -164,7 +165,7 @@ def test_unauthenticated_sees_only_login(app_env):
     assert not at.exception
     assert "auth" not in at.session_state
     assert [ti.label for ti in at.text_input] == ["Username", "Password"]
-    assert any("Developed and built by Oren - V2.0" in m.value for m in at.markdown)
+    assert any(FOOTER_TEXT in m.value for m in at.markdown)
     assert not at.sidebar.button  # no logout / navigation before sign-in
 
 
@@ -185,7 +186,7 @@ def test_authenticated_app_and_logout_clears_session(app_env):
     at = _signed_in("demo", "demo").run()
     assert not at.exception
     assert at.title and at.title[0].value == "Dashboard"
-    assert any("Developed and built by Oren - V2.0" in m.value for m in at.markdown)
+    assert any(FOOTER_TEXT in m.value for m in at.markdown)
     at.session_state["weekly_review"] = {"executive_summary": "private"}
     logout = next(b for b in at.sidebar.button if b.label == "Log out")
     at = logout.click().run()
@@ -222,3 +223,7 @@ def test_page_code_requires_authentication():
     from dashboard.ui.context import NotAuthenticated, workspace
     with pytest.raises(NotAuthenticated):
         workspace()
+
+
+def test_footer_text_is_exact():
+    assert FOOTER_TEXT == "Developed and built by Oren Salami - V2.0"

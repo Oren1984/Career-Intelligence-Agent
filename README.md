@@ -117,4 +117,4 @@ MIT. See [LICENSE](LICENSE).
 
 ---
 
-Developed and built by Oren - V2.0
+Developed and built by Oren Salami - V2.0
