@@ -23,6 +23,13 @@ apscheduler>=3.10.0
 # ollama runs locally; no Python package required beyond requests (already installed)
 
 
+# V2.0: PostgreSQL + pgvector
+psycopg[binary]>=3.2,<4
+pgvector>=0.4.1,<0.5
+
+# V2.0: local embeddings (required). Docker installs the CPU-only torch wheel first.
+sentence-transformers>=5.1,<6
+
 # Resume parsing
 pypdf>=4.0.0
 pdfminer.six>=20231228
@@ -34,8 +41,7 @@ rapidfuzz>=3.6.0
 # All RAG modules use Python stdlib + optional enhancements.
 # No hard new dependencies required for core TF-IDF retrieval.
 #
-# Optional: sentence-transformers for semantic similarity (no API key needed)
-# sentence-transformers>=2.7.0   # local semantic embeddings — install for better retrieval
+# sentence-transformers (above) provides local semantic embeddings for retrieval.
 
 # Security tools (CI)
 bandit>=1.7.7

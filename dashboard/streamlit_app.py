@@ -19,7 +19,8 @@ import logging
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import streamlit as st  # noqa: E402
-from app.db.session import init_db, get_session_factory  # noqa: E402
+from app.db.session import bind_workspace, check_db_ready, get_session_factory  # noqa: E402
+from app.workspace import workspace_from_env  # noqa: E402
 from app.services.job_service import JobService, VALID_STATUSES  # noqa: E402
 from app.db.models import VALID_FEEDBACK_SIGNALS  # noqa: E402
 
@@ -37,22 +38,22 @@ st.set_page_config(
 )
 
 # ── DB bootstrap ───────────────────────────────────────────────────────────────
+WORKSPACE = workspace_from_env()
+
+
 @st.cache_resource
 def _get_session_factory():
-    try:
-        init_db()
-    except Exception as exc:
-        logger.error("DB init failed: %s", exc)
+    check_db_ready()
     return get_session_factory()
 
 
 def get_service() -> JobService:
     factory = _get_session_factory()
-    session = factory()
+    session = bind_workspace(factory(), WORKSPACE)
     # Load profile for career scoring
     try:
-        from app.candidate.profile_loader import load_candidate_profile
-        profile = load_candidate_profile()
+        from app.services.workspace_profile import candidate_profile_for
+        profile = candidate_profile_for(session, WORKSPACE)
         return JobService(session, profile=profile.to_dict())
     except Exception:
         return JobService(session)
@@ -141,6 +142,7 @@ def _run_script(script_name: str, *args: str) -> tuple[bool, str]:
     try:
         result = subprocess.run(
             cmd, capture_output=True, text=True, timeout=120, cwd=_REPO_ROOT,
+            env={**os.environ, "WORKSPACE": WORKSPACE},
         )
         output = result.stdout + (f"\n[stderr]\n{result.stderr}" if result.stderr.strip() else "")
         return result.returncode == 0, output.strip()
@@ -151,10 +153,14 @@ def _run_script(script_name: str, *args: str) -> tuple[bool, str]:
 
 
 @st.cache_resource
-def _load_candidate_profile():
+def _load_candidate_profile(workspace: str):
     try:
-        from app.candidate.profile_loader import load_candidate_profile
-        return load_candidate_profile()
+        from app.services.workspace_profile import candidate_profile_for
+        session = bind_workspace(_get_session_factory()(), workspace)
+        try:
+            return candidate_profile_for(session, workspace)
+        finally:
+            session.close()
     except Exception as exc:
         logger.warning("Could not load candidate profile: %s", exc)
         return None
@@ -840,7 +846,7 @@ with tab_review:
 with tab_profile:
     st.subheader("Candidate Profile (V2)")
 
-    candidate = _load_candidate_profile()
+    candidate = _load_candidate_profile(WORKSPACE)
 
     if candidate is None:
         st.warning("Could not load candidate profile. Check data/candidate_profile/ and config/profile.yaml.")
@@ -928,10 +934,9 @@ with tab_profile:
     )
 
     try:
-        from app.services.personal_profile_service import (
-            load_personal_profile, save_personal_profile, profile_exists,
-        )
-        _pp = load_personal_profile()
+        from app.services.workspace_profile import load_override, save_override
+        _pp_session = bind_workspace(_get_session_factory()(), WORKSPACE)
+        _pp = load_override(_pp_session)
     except Exception as _pp_exc:
         st.error(f"Could not load personal profile service: {_pp_exc}")
         _pp = None
@@ -1003,7 +1008,7 @@ with tab_profile:
             def _csv_to_list(s: str) -> list[str]:
                 return [x.strip() for x in s.split(",") if x.strip()]
 
-            updated = load_personal_profile()
+            updated = load_override(_pp_session)
             updated.update({
                 "name": pp_name.strip(),
                 "headline": pp_headline.strip(),
@@ -1021,8 +1026,8 @@ with tab_profile:
                 "notes": pp_notes.strip(),
             })
             try:
-                save_personal_profile(updated)
-                st.success("Personal profile saved to `data/personal_profile.json`.")
+                save_override(_pp_session, updated)
+                st.success("Personal profile saved.")
                 st.cache_resource.clear()
             except ValueError as _ve:
                 st.error(f"Validation error: {_ve}")
@@ -1085,12 +1090,12 @@ with tab_paste:
 
     # ── Load analyzer (cached per profile) — uses RAGJobAnalyzer when KB ready ──
     @st.cache_resource
-    def _get_manual_analyzer():
+    def _get_manual_analyzer(workspace: str):
         try:
             from app.services.rag_job_analysis import RAGJobAnalyzer
-            from app.candidate.profile_loader import load_candidate_profile
-            profile = load_candidate_profile()
-            return RAGJobAnalyzer(profile=profile.to_dict())
+            from app.rag.factory import knowledge_service_for
+            profile = _load_candidate_profile(workspace)
+            return RAGJobAnalyzer(profile=profile.to_dict(), knowledge_service=knowledge_service_for(workspace))
         except Exception as exc:
             logger.error("RAGJobAnalyzer init failed: %s", exc)
             try:
@@ -1130,7 +1135,7 @@ with tab_paste:
             }
             with st.spinner(_spinner_msgs.get(execution_mode, "Analyzing...")):
                 try:
-                    analyzer = _get_manual_analyzer()
+                    analyzer = _get_manual_analyzer(WORKSPACE)
                     result = analyzer.analyze_with_mode(
                         raw_text=input_text,
                         mode=execution_mode,
@@ -1158,7 +1163,7 @@ with tab_paste:
         else:
             with st.spinner("Evaluating..."):
                 try:
-                    analyzer = _get_manual_analyzer()
+                    analyzer = _get_manual_analyzer(WORKSPACE)
                     if execution_mode == "agent_only":
                         apply_out = analyzer._base_analyzer.analyze_apply_only(
                             raw_text=input_text,
@@ -1191,7 +1196,7 @@ with tab_paste:
         else:
             with st.spinner("Matching portfolio..."):
                 try:
-                    analyzer = _get_manual_analyzer()
+                    analyzer = _get_manual_analyzer(WORKSPACE)
                     if execution_mode == "agent_only":
                         port_out = analyzer._base_analyzer.analyze_portfolio_only(
                             raw_text=input_text,
@@ -1570,15 +1575,15 @@ with tab_kb:
     )
 
     @st.cache_resource
-    def _get_knowledge_service():
+    def _get_knowledge_service(workspace: str):
         try:
-            from app.rag.knowledge_service import get_knowledge_service
-            return get_knowledge_service()
+            from app.rag.factory import knowledge_service_for
+            return knowledge_service_for(workspace)
         except Exception as exc:
             logger.warning("KnowledgeService init failed: %s", exc)
             return None
 
-    ks = _get_knowledge_service()
+    ks = _get_knowledge_service(WORKSPACE)
 
     col_kb1, col_kb2 = st.columns([2, 1])
 
@@ -1620,8 +1625,7 @@ with tab_kb:
                 with st.spinner("Ingesting knowledge base..."):
                     try:
                         new_status = ks.ingest()
-                        _get_knowledge_service.clear()
-                        if new_status.is_indexed:
+                                                if new_status.is_indexed:
                             st.success(
                                 f"Ingested {new_status.total_documents} docs, "
                                 f"{new_status.total_chunks} chunks."
@@ -1637,8 +1641,7 @@ with tab_kb:
                 with st.spinner("Rebuilding index..."):
                     try:
                         new_status = ks.rebuild()
-                        _get_knowledge_service.clear()
-                        st.success(
+                                                st.success(
                             f"Index rebuilt: {new_status.total_documents} docs, "
                             f"{new_status.total_chunks} chunks."
                         )
@@ -1676,18 +1679,18 @@ with tab_qa:
     )
 
     @st.cache_resource
-    def _get_qa_service():
+    def _get_qa_service(workspace: str):
         try:
             from app.rag.qa_service import CareerQAService
-            return CareerQAService()
+            return CareerQAService(knowledge_service=_get_knowledge_service(workspace))
         except Exception as exc:
             logger.warning("CareerQAService init failed: %s", exc)
             return None
 
-    qa_service = _get_qa_service()
+    qa_service = _get_qa_service(WORKSPACE)
 
     # ── Check KB readiness ────────────────────────────────────────────────────
-    ks_for_qa = _get_knowledge_service()
+    ks_for_qa = _get_knowledge_service(WORKSPACE)
     kb_ready = ks_for_qa is not None and ks_for_qa.is_ready()
 
     if not kb_ready:

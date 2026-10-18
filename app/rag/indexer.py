@@ -49,8 +49,12 @@ _STOP_WORDS = frozenset({
 
 
 def _tokenize(text: str) -> list[str]:
-    """Lowercase, remove punctuation, split, remove stop words."""
-    tokens = re.findall(r'\b[a-z][a-z0-9+#./_-]{1,}\b', text.lower())
+    """Lowercase, remove punctuation, split, remove stop words.
+
+    Accepts Latin and Hebrew letters (U+05D0–U+05EA) so Hebrew documents remain
+    searchable through the TF-IDF fallback; English tokenization is unchanged.
+    """
+    tokens = re.findall(r'\b[a-zא-ת][a-z0-9א-ת+#./_-]{1,}\b', text.lower())
     return [t for t in tokens if t not in _STOP_WORDS and len(t) >= 2]
 
 

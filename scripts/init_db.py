@@ -1,7 +1,13 @@
 # scripts/init_db.py
-# This file is part of the OpenLLM project issue tracker:
+# Create or migrate the database schema (run with the database owner credentials).
 
-"""Initialize the SQLite database — create all tables and apply V2 migrations."""
+"""Initialize or migrate the database schema.
+
+Uses ``MIGRATION_DATABASE_URL`` (owner role) when set, otherwise ``DATABASE_URL``.
+On PostgreSQL this also enables pgvector, applies row-level security and
+creates the least-privilege application role from APP_DB_USER/APP_DB_PASSWORD.
+Idempotent — safe to run on every deployment.
+"""
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -10,41 +16,23 @@ import logging  # noqa: E402
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
-from app.db.session import get_engine  # noqa: E402
+from sqlalchemy import inspect  # noqa: E402
 
-# V2 columns to add to the scores table if they don't exist yet
-_V2_MIGRATIONS = [
-    ("keyword_score", "ALTER TABLE scores ADD COLUMN keyword_score REAL"),
-    ("semantic_score", "ALTER TABLE scores ADD COLUMN semantic_score REAL"),
-    ("final_score", "ALTER TABLE scores ADD COLUMN final_score REAL"),
-    ("matched_themes", "ALTER TABLE scores ADD COLUMN matched_themes TEXT"),
-    ("missing_themes", "ALTER TABLE scores ADD COLUMN missing_themes TEXT"),
-]
+from app.db.migrations import apply_legacy_score_columns, run_migrations  # noqa: E402
+from app.db.session import get_engine  # noqa: E402
 
 
 def apply_v2_migrations(engine):
     """Add V2 columns to the scores table if they are absent (safe, idempotent)."""
-    from sqlalchemy import inspect, text
-    inspector = inspect(engine)
-
-    # scores table may not exist on brand-new DBs — skip in that case
-    if "scores" not in inspector.get_table_names():
+    if "scores" not in inspect(engine).get_table_names():
         return
-
-    existing_columns = {col["name"] for col in inspector.get_columns("scores")}
-
     with engine.connect() as conn:
-        for col_name, alter_sql in _V2_MIGRATIONS:
-            if col_name not in existing_columns:
-                conn.execute(text(alter_sql))
-                logger.info("V2 migration: added column '%s' to scores table.", col_name)
+        apply_legacy_score_columns(conn)
         conn.commit()
 
 
 if __name__ == "__main__":
-    engine = get_engine()
-    from app.db.models import Base
-    Base.metadata.create_all(engine)
-    apply_v2_migrations(engine)
-    logger.info("Database initialized at %s", engine.url)
-    print("Database initialized successfully (V2-ready).")
+    engine = get_engine(os.environ.get("MIGRATION_DATABASE_URL") or None)
+    run_migrations(engine)
+    logger.info("Database schema is current (%s).", engine.url.render_as_string(hide_password=True))
+    print("Database initialized successfully.")

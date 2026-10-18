@@ -36,21 +36,24 @@ logger = logging.getLogger("scheduler")
 
 def _make_collect_fn():
     """Build a zero-argument collect function using the configured sources."""
-    from app.db.session import get_session_factory, init_db
+    from app.db.session import bind_workspace, check_db_ready, get_session_factory
     from app.collectors.source_loader import load_collectors
     from app.services.job_service import JobService
+    from app.services.workspace_profile import scoring_profile_for
+    from app.workspace import workspace_from_env
 
-    init_db()
+    check_db_ready()
     SessionFactory = get_session_factory()
+    workspace = workspace_from_env()
 
     def collect():
         collectors = load_collectors(include_mock=False)
         if not collectors:
             from app.collectors.mock_collector import MockCollector
             collectors = [MockCollector()]
-        session = SessionFactory()
+        session = bind_workspace(SessionFactory(), workspace)
         try:
-            svc = JobService(session)
+            svc = JobService(session, profile=scoring_profile_for(workspace))
             stats = svc.run_collectors(collectors)
             logger.info(
                 "Collection: collected=%d inserted=%d skipped=%d errors=%d",
@@ -64,16 +67,19 @@ def _make_collect_fn():
 
 def _make_score_fn():
     """Build a zero-argument score function."""
-    from app.db.session import get_session_factory, init_db
+    from app.db.session import bind_workspace, check_db_ready, get_session_factory
     from app.services.job_service import JobService
+    from app.services.workspace_profile import scoring_profile_for
+    from app.workspace import workspace_from_env
 
-    init_db()
+    check_db_ready()
     SessionFactory = get_session_factory()
+    workspace = workspace_from_env()
 
     def score():
-        session = SessionFactory()
+        session = bind_workspace(SessionFactory(), workspace)
         try:
-            svc = JobService(session)
+            svc = JobService(session, profile=scoring_profile_for(workspace))
             n = svc.score_all_unscored()
             logger.info("Scoring: scored %d jobs", n)
         finally:

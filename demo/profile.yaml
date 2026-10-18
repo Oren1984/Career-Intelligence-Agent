@@ -1,0 +1,82 @@
+# demo/profile.yaml — synthetic candidate profile for the demo workspace (fictional person).
+
+target_roles:
+  - DevOps Engineer
+  - Platform Engineer
+  - Site Reliability Engineer
+  - MLOps Engineer
+
+preferred_role_track: Platform Engineer
+experience_level: mid
+seniority_target: mid
+
+positive_keywords:
+  - kubernetes
+  - docker
+  - terraform
+  - aws
+  - python
+  - ci/cd
+  - observability
+  - prometheus
+  - mlops
+  - linux
+
+negative_keywords:
+  - phd
+  - principal
+  - relocation
+  - 10+ years
+
+preferred_technologies:
+  - Kubernetes
+  - Terraform
+  - Docker
+  - Python
+  - GitHub Actions
+  - Prometheus
+
+avoided_technologies:
+  - COBOL
+  - Visual Basic
+
+preferred_locations:
+  - Israel
+  - Remote
+
+work_mode_preference: hybrid
+
+company_type_preference:
+  - scaleup
+  - tech company
+
+language_preference: english
+
+salary_preference:
+  min: ""
+  currency: ""
+
+short_term_goal: >
+  Join a platform team running Kubernetes in production and own CI/CD and observability.
+
+long_term_goal: >
+  Grow into a staff platform engineer who designs internal developer platforms.
+
+preferred_domains:
+  - Platform Engineering
+  - DevOps
+  - MLOps
+
+willingness_to_learn:
+  - Go
+  - ArgoCD
+  - Kafka
+
+career_tracks:
+  primary: Platform / DevOps Engineer
+  acceptable:
+    - Site Reliability Engineer
+    - MLOps Engineer
+  avoid:
+    - Manual QA
+    - Helpdesk

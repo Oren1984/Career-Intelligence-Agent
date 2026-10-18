@@ -1,0 +1,7 @@
+{
+  "infrastructure": ["Kubernetes", "Docker", "Terraform", "Helm", "AWS", "Linux"],
+  "delivery": ["GitHub Actions", "CI/CD", "ArgoCD", "Bash"],
+  "observability": ["Prometheus", "Grafana", "Loki", "Alerting"],
+  "programming": ["Python", "Go (basic)", "SQL"],
+  "ml_ops": ["MLflow", "Model serving", "Feature pipelines"]
+}

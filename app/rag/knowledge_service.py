@@ -48,6 +48,11 @@ class KnowledgeBaseStatus:
     last_ingest_timestamp: Optional[float] = None
     last_ingest_iso: str = ""
     documents_by_category: dict[str, int] = field(default_factory=dict)
+    # V2.0 (PostgreSQL-backed workspaces)
+    search_backend: str = "tfidf"          # "vector" when embeddings are usable, else "tfidf"
+    embedded_chunks: int = 0
+    embedding_model: str = ""
+    embedding_error: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -60,6 +65,10 @@ class KnowledgeBaseStatus:
             "last_ingest_timestamp": self.last_ingest_timestamp,
             "last_ingest_iso": self.last_ingest_iso,
             "documents_by_category": self.documents_by_category,
+            "search_backend": self.search_backend,
+            "embedded_chunks": self.embedded_chunks,
+            "embedding_model": self.embedding_model,
+            "embedding_error": self.embedding_error,
         }
 
 
